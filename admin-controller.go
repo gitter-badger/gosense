@@ -34,7 +34,12 @@ type AdminController struct {
 }
 
 func (ac *AdminController) ListBlogCtr(c *gin.Context) {
-
+	session := sessions.Default(c)
+	username := session.Get("username")
+	if username == nil {
+		(&umsg{"This is EditBlog action", "/"}).ShowMessage(c)
+		return;
+	}
 	page, err := strconv.Atoi(c.DefaultQuery("page", "1"))
 	if err != nil {
 		log.Fatal(err)
@@ -81,8 +86,6 @@ func (ac *AdminController) ListBlogCtr(c *gin.Context) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	session := sessions.Default(c)
-	username := session.Get("username")
 	c.HTML(http.StatusOK, "admin.list.blog.html", gin.H{
 		"bloglist":  template.HTML(blogList),
 		"username":  username,
@@ -92,18 +95,42 @@ func (ac *AdminController) ListBlogCtr(c *gin.Context) {
 }
 
 func (ac *AdminController) EditBlogCtr(c *gin.Context) {
+	session := sessions.Default(c)
+	username := session.Get("username")
+	if username == nil {
+		(&umsg{"This is EditBlog action", "/"}).ShowMessage(c)
+		return;
+	}
 	(&msg{"This is EditBlog action"}).ShowMessage(c)
 }
 
 func (ac *AdminController) DeleteBlogCtr(c *gin.Context) {
+	session := sessions.Default(c)
+	username := session.Get("username")
+	if username == nil {
+		(&umsg{"This is EditBlog action", "/"}).ShowMessage(c)
+		return;
+	}
 	(&msg{"This is delete blog action"}).ShowMessage(c)
 }
 
 func (ac *AdminController) AddBlogCtr(c *gin.Context) {
+	session := sessions.Default(c)
+	username := session.Get("username")
+	if username == nil {
+		(&umsg{"This is EditBlog action", "/"}).ShowMessage(c)
+		return;
+	}
 	c.HTML(http.StatusOK, "add-blog.html", gin.H{})
 }
 
 func (ac *AdminController) SaveBlogEditCtr(c *gin.Context) {
+	session := sessions.Default(c)
+	username := session.Get("username")
+	if username == nil {
+		(&umsg{"This is EditBlog action", "/"}).ShowMessage(c)
+		return;
+	}
 	var BI EditBlogItem
 	c.BindWith(&BI, binding.Form)
 	if BI.Aid == "" {
@@ -128,6 +155,12 @@ func (ac *AdminController) SaveBlogEditCtr(c *gin.Context) {
 
 }
 func (ac *AdminController) SaveBlogAddCtr(c *gin.Context) {
+	session := sessions.Default(c)
+	username := session.Get("username")
+	if username == nil {
+		(&umsg{"This is EditBlog action", "/"}).ShowMessage(c)
+		return;
+	}
 	var BI BlogItem
 	c.BindWith(&BI, binding.Form)
 	if BI.Title == "" {
