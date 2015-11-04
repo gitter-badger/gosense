@@ -17,6 +17,11 @@ Or you can install docker, then run docker container
 git clone https://github.com/netroby/gosense.git
 ./up.sh
 ```
+
+Once you docker up and running, you may access demo via http://127.0.0.1:8080
+
+And if you want reload gosense, just type docker restart gosense
+
 ## License
 
 MIT License
