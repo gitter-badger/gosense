@@ -36,8 +36,9 @@ type AdminController struct {
 func (ac *AdminController) ListBlogCtr(c *gin.Context) {
 	session := sessions.Default(c)
 	username := session.Get("username")
+	fmt.Println(username)
 	if username == nil {
-		(&umsg{"This is EditBlog action", "/"}).ShowMessage(c)
+		(&umsg{"You have no permission", "/"}).ShowMessage(c)
 		return;
 	}
 	page, err := strconv.Atoi(c.DefaultQuery("page", "1"))
@@ -98,7 +99,7 @@ func (ac *AdminController) EditBlogCtr(c *gin.Context) {
 	session := sessions.Default(c)
 	username := session.Get("username")
 	if username == nil {
-		(&umsg{"This is EditBlog action", "/"}).ShowMessage(c)
+		(&umsg{"You have no permission", "/"}).ShowMessage(c)
 		return;
 	}
 	(&msg{"This is EditBlog action"}).ShowMessage(c)
@@ -108,7 +109,7 @@ func (ac *AdminController) DeleteBlogCtr(c *gin.Context) {
 	session := sessions.Default(c)
 	username := session.Get("username")
 	if username == nil {
-		(&umsg{"This is EditBlog action", "/"}).ShowMessage(c)
+		(&umsg{"You have no permission", "/"}).ShowMessage(c)
 		return;
 	}
 	(&msg{"This is delete blog action"}).ShowMessage(c)
@@ -118,7 +119,7 @@ func (ac *AdminController) AddBlogCtr(c *gin.Context) {
 	session := sessions.Default(c)
 	username := session.Get("username")
 	if username == nil {
-		(&umsg{"This is EditBlog action", "/"}).ShowMessage(c)
+		(&umsg{"You have no permission", "/"}).ShowMessage(c)
 		return;
 	}
 	c.HTML(http.StatusOK, "add-blog.html", gin.H{})
@@ -128,7 +129,7 @@ func (ac *AdminController) SaveBlogEditCtr(c *gin.Context) {
 	session := sessions.Default(c)
 	username := session.Get("username")
 	if username == nil {
-		(&umsg{"This is EditBlog action", "/"}).ShowMessage(c)
+		(&umsg{"You have no permission", "/"}).ShowMessage(c)
 		return;
 	}
 	var BI EditBlogItem
@@ -158,7 +159,7 @@ func (ac *AdminController) SaveBlogAddCtr(c *gin.Context) {
 	session := sessions.Default(c)
 	username := session.Get("username")
 	if username == nil {
-		(&umsg{"This is EditBlog action", "/"}).ShowMessage(c)
+		(&umsg{"You have no permission", "/"}).ShowMessage(c)
 		return;
 	}
 	var BI BlogItem
