@@ -4,7 +4,9 @@ if [ ! -f config.toml ]; then
     cp config.toml.dist config.toml
 fi
 go get github.com/tools/godep
+godep get -v
 godep go build
+
 
 if [ $(docker ps -a | grep gs_db | wc -l) -le 0 ]; then
 
