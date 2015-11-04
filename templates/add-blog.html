@@ -20,11 +20,15 @@
     </script>
 </head>
 <body>
-<form action="/admin/save-blog-add" method="post"  enctype="multipart/form-data">
-    <div><label>Title:</label><input name="title"></div>
-    <div><textarea name="content">Easy! You should check out MoxieManager!</textarea></div>
-    <div>
-        <button type="submit">Save</button>
+<form action="/admin/save-blog-add" method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
+    <div class="form-group"><label>Title:</label><input name="title" class="form-control"></div>
+    <div class="form-group">
+        <label>Content:</label>
+        <textarea name="content" class="form-control"></textarea></div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit">Save</button>
+        </div>
     </div>
 </form>
 </body>
