@@ -23,6 +23,14 @@ type umsg struct {
 	url string
 }
 
+type VBlogItem struct {
+	aid            int
+	title          sql.NullString
+	content        sql.NullString
+	publish_time   sql.NullString
+	publish_status sql.NullInt64
+}
+
 /*
 	Show message with template
 */

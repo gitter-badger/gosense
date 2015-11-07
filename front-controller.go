@@ -154,13 +154,6 @@ func (fc *FrontController) ViewAltCtr(c *gin.Context) {
 
 }
 
-type VBlogItem struct {
-	aid            int
-	title          sql.NullString
-	content        sql.NullString
-	publish_time   sql.NullString
-	publish_status sql.NullInt64
-}
 
 func (fc *FrontController) ViewCtr(c *gin.Context) {
 	id := c.Param("id")

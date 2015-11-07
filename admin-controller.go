@@ -102,7 +102,38 @@ func (ac *AdminController) EditBlogCtr(c *gin.Context) {
 		(&umsg{"You have no permission", "/"}).ShowMessage(c)
 		return;
 	}
-	(&msg{"This is EditBlog action"}).ShowMessage(c)
+	id := c.Param("id")
+	var blog VBlogItem
+	CKey := fmt.Sprintf("blogitem-%d", id)
+	val, ok := Cache.Get(CKey)
+	if val != nil && ok == true {
+		fmt.Println("Ok, we found cache, Cache Len: ", Cache.Len())
+		blog = val.(VBlogItem)
+	} else {
+		rows, err := DB.Query("Select * from top_article where aid = ?", &id)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer rows.Close()
+		var ()
+		for rows.Next() {
+			err := rows.Scan(&blog.aid, &blog.title, &blog.content, &blog.publish_time, &blog.publish_status)
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
+		err = rows.Err()
+		if err != nil {
+			log.Fatal(err)
+		}
+		Cache.Add(CKey, blog)
+	}
+	c.HTML(http.StatusOK, "edit-blog.html", gin.H{
+		"aid":          blog.aid,
+		"title":        blog.title.String,
+		"content":      template.HTML(blog.content.String),
+		"publish_time": blog.publish_time.String,
+	})
 }
 
 func (ac *AdminController) DeleteBlogCtr(c *gin.Context) {
