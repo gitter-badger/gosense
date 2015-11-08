@@ -143,7 +143,19 @@ func (ac *AdminController) DeleteBlogCtr(c *gin.Context) {
 		(&umsg{"You have no permission", "/"}).ShowMessage(c)
 		return;
 	}
-	(&msg{"This is delete blog action"}).ShowMessage(c)
+	var BI EditBlogItem
+	c.BindWith(&BI, binding.Form)
+	if BI.Aid == "" {
+		(&umsg{"Can not find the blog been delete", "/"}).ShowMessage(c)
+		return
+	}
+	_, err := DB.Exec("delete from top_article where aid = ? limit 1", BI.Aid)
+	if err == nil {
+		Cache = lru.New(8192)
+		(&umsg{"Deleted Success", "/"}).ShowMessage(c)
+	} else {
+		(&umsg{"Failed to delete blog", "/"}).ShowMessage(c)
+	}
 }
 
 func (ac *AdminController) AddBlogCtr(c *gin.Context) {
@@ -166,23 +178,23 @@ func (ac *AdminController) SaveBlogEditCtr(c *gin.Context) {
 	var BI EditBlogItem
 	c.BindWith(&BI, binding.Form)
 	if BI.Aid == "" {
-		(&msg{"Can not find the blog been edit"}).ShowMessage(c)
+		(&umsg{"Can not find the blog been edit", "/"}).ShowMessage(c)
 		return
 	}
 	if BI.Title == "" {
-		(&msg{"Title can not empty"}).ShowMessage(c)
+		(&umsg{"Title can not empty", "/"}).ShowMessage(c)
 		return
 	}
 	if BI.Content == "" {
-		(&msg{"Content can not empty"}).ShowMessage(c)
+		(&umsg{"Content can not empty", "/"}).ShowMessage(c)
 		return
 	}
 	_, err := DB.Exec("update top_article set title=?, content=? where aid = ?", BI.Title, BI.Content, BI.Aid)
 	if err == nil {
 		Cache = lru.New(8192)
-		(&msg{"Success"}).ShowMessage(c)
+		(&umsg{"Success", "/"}).ShowMessage(c)
 	} else {
-		(&msg{"Failed to save blog"}).ShowMessage(c)
+		(&umsg{"Failed to save blog", "/"}).ShowMessage(c)
 	}
 
 }
@@ -196,11 +208,11 @@ func (ac *AdminController) SaveBlogAddCtr(c *gin.Context) {
 	var BI BlogItem
 	c.BindWith(&BI, binding.Form)
 	if BI.Title == "" {
-		(&msg{"Title can not empty"}).ShowMessage(c)
+		(&umsg{"Title can not empty", "/"}).ShowMessage(c)
 		return
 	}
 	if BI.Content == "" {
-		(&msg{"Content can not empty"}).ShowMessage(c)
+		(&umsg{"Content can not empty", "/"}).ShowMessage(c)
 		return
 	}
 	_, err := DB.Exec(
@@ -208,9 +220,9 @@ func (ac *AdminController) SaveBlogAddCtr(c *gin.Context) {
 		BI.Title, BI.Content, time.Now().Format("2006-01-02 15:04:05"))
 	if err == nil {
 		Cache = lru.New(8192)
-		(&msg{"Success"}).ShowMessage(c)
+		(&umsg{"Success", "/"}).ShowMessage(c)
 	} else {
-		(&msg{"Failed to save blog"}).ShowMessage(c)
+		(&umsg{"Failed to save blog", "/"}).ShowMessage(c)
 	}
 
 }
@@ -229,7 +241,7 @@ func (ac *AdminController) LoginProcessCtr(c *gin.Context) {
 		session.Save()
 		c.Redirect(301, "/")
 	} else {
-		(&msg{"Login failed"}).ShowMessage(c)
+		(&umsg{"Login Failed. You have no permission", "/"}).ShowMessage(c)
 	}
 }
 
