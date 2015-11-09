@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin/binding"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/golang/groupcache/lru"
+	"github.com/gorilla/sessions"
 	"html/template"
 	"log"
 	"net/http"
@@ -234,13 +235,14 @@ func (ac *AdminController) LoginCtr(c *gin.Context) {
 func (ac *AdminController) LoginProcessCtr(c *gin.Context) {
 	var form AdminLoginForm
 	c.BindWith(&form, binding.Form)
-
+	session := sessions.Default(c)
 	if form.Username == Config.Admin_user && form.Password == Config.Admin_password {
-		session := sessions.Default(c)
 		session.Set("username", "netroby")
 		session.Save()
 		c.Redirect(301, "/")
 	} else {
+		session.Delete("username")
+		session.Save()
 		(&umsg{"Login Failed. You have no permission", "/"}).ShowMessage(c)
 	}
 }
