@@ -8,7 +8,6 @@ import (
 	"github.com/gin-gonic/gin/binding"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/golang/groupcache/lru"
-	"github.com/gorilla/sessions"
 	"html/template"
 	"log"
 	"net/http"
