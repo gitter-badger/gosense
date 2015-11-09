@@ -39,7 +39,7 @@ func (ac *AdminController) ListBlogCtr(c *gin.Context) {
 	fmt.Println(username)
 	if username == nil {
 		(&umsg{"You have no permission", "/"}).ShowMessage(c)
-		return;
+		return
 	}
 	page, err := strconv.Atoi(c.DefaultQuery("page", "1"))
 	if err != nil {
@@ -100,11 +100,11 @@ func (ac *AdminController) EditBlogCtr(c *gin.Context) {
 	username := session.Get("username")
 	if username == nil {
 		(&umsg{"You have no permission", "/"}).ShowMessage(c)
-		return;
+		return
 	}
 	id := c.Param("id")
 	var blog VBlogItem
-	CKey := fmt.Sprintf("blogitem-%d", id)
+	CKey := fmt.Sprintf("blogitem-%s", id)
 	val, ok := Cache.Get(CKey)
 	if val != nil && ok == true {
 		fmt.Println("Ok, we found cache, Cache Len: ", Cache.Len())
@@ -141,7 +141,7 @@ func (ac *AdminController) DeleteBlogCtr(c *gin.Context) {
 	username := session.Get("username")
 	if username == nil {
 		(&umsg{"You have no permission", "/"}).ShowMessage(c)
-		return;
+		return
 	}
 	var BI EditBlogItem
 	c.BindWith(&BI, binding.Form)
@@ -163,7 +163,7 @@ func (ac *AdminController) AddBlogCtr(c *gin.Context) {
 	username := session.Get("username")
 	if username == nil {
 		(&umsg{"You have no permission", "/"}).ShowMessage(c)
-		return;
+		return
 	}
 	c.HTML(http.StatusOK, "add-blog.html", gin.H{})
 }
@@ -173,7 +173,7 @@ func (ac *AdminController) SaveBlogEditCtr(c *gin.Context) {
 	username := session.Get("username")
 	if username == nil {
 		(&umsg{"You have no permission", "/"}).ShowMessage(c)
-		return;
+		return
 	}
 	var BI EditBlogItem
 	c.BindWith(&BI, binding.Form)
@@ -203,7 +203,7 @@ func (ac *AdminController) SaveBlogAddCtr(c *gin.Context) {
 	username := session.Get("username")
 	if username == nil {
 		(&umsg{"You have no permission", "/"}).ShowMessage(c)
-		return;
+		return
 	}
 	var BI BlogItem
 	c.BindWith(&BI, binding.Form)
