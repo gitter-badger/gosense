@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/groupcache/lru"
+	"github.com/fvbock/endless"
 )
 
 var (
@@ -48,5 +49,5 @@ func main() {
 		admin.GET("/editblog/:id", ac.EditBlogCtr)
 	}
 	// Listen and serve on 0.0.0.0:8080
-	r.Run(":8080")
+	endless.ListenAndServe(":8080", r)
 }
