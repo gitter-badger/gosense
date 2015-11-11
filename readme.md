@@ -20,7 +20,20 @@ git clone https://github.com/netroby/gosense.git
 
 Once you docker up and running, you may access demo via http://127.0.0.1:8080
 
-And if you want reload gosense, just type docker restart gosense
+
+## Graceful restart 
+
+And if you want reload gosense, just  run following command
+
+```
+docker kill -s HUP gosense
+```
+Or may you want to rebuild binary and graceful reload ?
+
+```
+git pull --rebase
+./graceful-restart.sh
+```
 
 ## License
 
