@@ -27,4 +27,5 @@ fi
 if [ $(docker ps -a | grep gosense | wc -l) -ge 1 ]; then
     docker rm -vf gosense
 fi
-docker run --restart=always -d -p 8080:8080 --link gs_db:db -v $(pwd):/www --name gosense netroby/alpgo /www/gosense
+docker run --restart=always -d -p 8080:8080 --link gs_db:db -v $(pwd):/www --name gosense debian  sh -c "cd /www && /www/gosense"
+
