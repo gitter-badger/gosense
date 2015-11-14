@@ -53,6 +53,7 @@ func main() {
 	api := r.Group("/api")
 	{
 		api.GET("/", a.index)
+		api.GET("view/:id", a.view)
 	}
 	// Listen and serve on 0.0.0.0:8080
 	endless.ListenAndServe(":8080", r)

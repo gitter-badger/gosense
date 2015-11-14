@@ -71,3 +71,53 @@ func (a *api) index(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, blogListSlice)
 }
+
+type apiBlogItem struct {
+	Aid     string `form:"aid" json:"aid"  binding:"required"`
+	Title   string `form:"title" json:"title"  binding:"required"`
+	Content string `form:"content" json:"content"  binding:"required"`
+}
+
+func (a *api) view(c *gin.Context) {
+	aid, err := strconv.Atoi(c.Param("id"))
+	fmt.Println(aid)
+	if err != nil {
+		log.Fatal(err)
+	}
+	CKey := fmt.Sprintf("api-view-aid-%d", aid)
+	var b apiBlogItem
+	val, ok := Cache.Get(CKey)
+	fmt.Println(val)
+	if val != nil && ok == true {
+		fmt.Println("Ok, we found cache, Cache Len: ", Cache.Len())
+		b = val.(apiBlogItem)
+	} else {
+		rows, err := DB.Query("Select aid, title, content from top_article where aid =  ? limit 1 ", &aid)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer rows.Close()
+		var (
+			aid     sql.NullString
+			title   sql.NullString
+			content sql.NullString
+		)
+		for rows.Next() {
+			err := rows.Scan(&aid, &title, &content)
+			if err != nil {
+				fmt.Println(err)
+			}
+			b.Aid = aid.String
+			b.Title = title.String
+			b.Content = content.String
+		}
+		fmt.Println(b)
+		err = rows.Err()
+		if err != nil {
+			log.Fatal(err)
+		}
+		Cache.Add(CKey, b)
+	}
+	fmt.Println(b)
+	c.JSON(http.StatusOK, b)
+}
