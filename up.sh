@@ -3,15 +3,9 @@ set -ex
 if [ ! -f config.toml ]; then
     cp config.toml.dist config.toml
 fi
-go get github.com/tools/godep
-godep get -v
-godep go build
-
-
+docker run --rm --name go-build -v $(pwd):/www golang sh -c "cd /www ;go get -v ; go build -o /www/gosense "
 if [ $(docker ps -a | grep gs_db | wc -l) -le 0 ]; then
-
     docker run --restart=always -d --name gs_db  netroby/docker-mysql
-
     while true; do
         if [ $(docker logs gs_db 2>&1 | grep "ready for connections" | wc -l)  -ge 2 ]; then
             break;
@@ -20,7 +14,6 @@ if [ $(docker ps -a | grep gs_db | wc -l) -le 0 ]; then
             sleep 2
         fi
     done
-
     docker cp sql/bak.sql gs_db:/root/
     docker exec gs_db sh -c "mysql < /root/bak.sql"
 fi
