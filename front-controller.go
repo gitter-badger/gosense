@@ -167,7 +167,7 @@ func (fc *FrontController) ViewCtr(c *gin.Context) {
 		fmt.Println("Ok, we found cache, Cache Len: ", Cache.Len())
 		blog = val.(VBlogItem)
 	} else {
-		rows, err := DB.Query("Select * from top_article where aid = ?", &id)
+		rows, err := DB.Query("Select aid, title, content, publish_time, publish_status from top_article where aid = ?", &id)
 		if err != nil {
 			log.Fatal(err)
 		}
