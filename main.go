@@ -33,6 +33,7 @@ func main() {
 	r.GET("/view.php", fc.ViewAltCtr)
 	r.GET("/ping", fc.PingCtr)
 	r.GET("/search", fc.SearchCtr)
+	r.GET("/countview", fc.CountViewCtr)
 
 	ac := new(AdminController)
 	admin := r.Group("/admin")

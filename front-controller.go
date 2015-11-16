@@ -154,6 +154,10 @@ func (fc *FrontController) ViewAltCtr(c *gin.Context) {
 
 }
 
+func (fc *FrontController) CountViewCtr(c *gin.Context) {
+	return
+}
+
 func (fc *FrontController) ViewCtr(c *gin.Context) {
 	id := c.Param("id")
 	var blog VBlogItem
