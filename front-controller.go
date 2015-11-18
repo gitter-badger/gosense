@@ -177,14 +177,14 @@ func (fc *FrontController) ViewCtr(c *gin.Context) {
 		fmt.Println("Ok, we found cache, Cache Len: ", Cache.Len())
 		blog = val.(VBlogItem)
 	} else {
-		rows, err := DB.Query("Select aid, title, content, publish_time, publish_status from top_article where aid = ?", &id)
+		rows, err := DB.Query("select aid, title, content, publish_time, publish_status, views from top_article where aid = ?", &id)
 		if err != nil {
 			log.Fatal(err)
 		}
 		defer rows.Close()
 		var ()
 		for rows.Next() {
-			err := rows.Scan(&blog.aid, &blog.title, &blog.content, &blog.publish_time, &blog.publish_status)
+			err := rows.Scan(&blog.aid, &blog.title, &blog.content, &blog.publish_time, &blog.publish_status, &blog.views)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -200,6 +200,7 @@ func (fc *FrontController) ViewCtr(c *gin.Context) {
 		"title":        blog.title.String,
 		"content":      template.HTML(blog.content.String),
 		"publish_time": blog.publish_time.String,
+		"views":        blog.views,
 	})
 
 }
