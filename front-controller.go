@@ -151,7 +151,6 @@ func (fc *FrontController) SearchCtr(c *gin.Context) {
 func (fc *FrontController) ViewAltCtr(c *gin.Context) {
 	id := c.DefaultQuery("id", "0")
 	c.Redirect(301, fmt.Sprintf("/view/%s", id))
-
 }
 
 func (fc *FrontController) CountViewCtr(c *gin.Context) {
@@ -160,12 +159,11 @@ func (fc *FrontController) CountViewCtr(c *gin.Context) {
 		fmt.Println("Can not get id")
 		return
 	}
-	rows, err := DB.Query("update top_article set views=views+1 where aid = ?", &id)
+	_, err = DB.Exec("update top_article set views=views+1 where aid = ?", &id)
 	if err != nil {
 		fmt.Println(err)
 	}
-	defer rows.Close()
-	return
+	c.String(http.StatusOK, "[1]")
 }
 
 func (fc *FrontController) ViewCtr(c *gin.Context) {
