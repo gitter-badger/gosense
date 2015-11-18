@@ -47,8 +47,10 @@
         <div class="blog-body">
           {{ .content }}</div>
         <div class="blog-orig">
-            <a href="https://www.netroby.com/view/{{ .aid }}">http://www.netroby.com/view/{{ .aid }}</a>
-            {{ .publish_time }} </div>
+            <p><a href="https://www.netroby.com/view/{{ .aid }}">http://www.netroby.com/view/{{ .aid }}</a></p>
+            <p>Post: {{ .publish_time }}</p>
+            <p>Views: {{ .views }}</p>
+        </div>
         <div class="clearfix h10"></div>
         <div class="addthis_sharing_toolbox"></div>
         <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-514ff8081944d017" async="async"></script>
