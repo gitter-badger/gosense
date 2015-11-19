@@ -61,7 +61,7 @@ func (ac *AdminController) ListBlogCtr(c *gin.Context) {
 	offset := page * rpp
 	log.Println(rpp)
 	log.Println(offset)
-	rows, err := DB.Query("Select aid, title from top_article where publish_status = 1 order by aid desc limit ? offset ? ", &rpp, &offset)
+	rows, err := DB.Query("Select aid, title, views from top_article where publish_status = 1 order by aid desc limit ? offset ? ", &rpp, &offset)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -69,16 +69,18 @@ func (ac *AdminController) ListBlogCtr(c *gin.Context) {
 	var (
 		aid   int
 		title sql.NullString
+		views int
 	)
 	for rows.Next() {
-		err := rows.Scan(&aid, &title)
+		err := rows.Scan(&aid, &title, &views)
 		if err != nil {
 			log.Fatal(err)
 		}
 		blogList += fmt.Sprintf(
-			"<li><a href=\"/view/%d\">%s</a>    [<a href=\"/admin/editblog/%d\">Edit</a>] [<a href=\"/admin/deleteblog/%d\">Delete</a>]</li>",
+			"<li><a href=\"/view/%d\">%s</a> Views(%d)    [<a href=\"/admin/editblog/%d\">Edit</a>] [<a href=\"/admin/deleteblog/%d\">Delete</a>]</li>",
 			aid,
 			title.String,
+			views,
 			aid,
 			aid,
 		)
