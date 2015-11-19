@@ -15,11 +15,12 @@ import (
 	"time"
 )
 
+// AdminLoginForm is the login form for Admin 
 type AdminLoginForm struct {
 	Username string `form:"username" binding:"required"`
 	Password string `form:"password" binding:"required"`
 }
-
+// BlogItem is the blog item 
 type BlogItem struct {
 	Title   string `form:"title" binding:"required"`
 	Content string `form:"content" binding:"required"`
@@ -32,7 +33,7 @@ type EditBlogItem struct {
 
 type AdminController struct {
 }
-
+// ListBlogCtr is list blogs for admin 
 func (ac *AdminController) ListBlogCtr(c *gin.Context) {
 	session := sessions.Default(c)
 	username := session.Get("username")
