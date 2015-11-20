@@ -24,7 +24,7 @@ func main() {
 	r.Static("/assets", "assets")
 	store := sessions.NewCookieStore([]byte("gssecret"))
 	r.Use(sessions.Sessions("mysession", store))
-	r.LoadHTMLGlob("templates/*")
+	r.LoadHTMLGlob("templates/*.html")
 
 	fc := new(FrontController)
 	r.GET("/", fc.HomeCtr)
