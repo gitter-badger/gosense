@@ -113,7 +113,7 @@ func (ac *AdminController) EditBlogCtr(c *gin.Context) {
 		fmt.Println("Ok, we found cache, Cache Len: ", Cache.Len())
 		blog = val.(VBlogItem)
 	} else {
-		rows, err := DB.Query("Select select aid, title, content, publish_time, publish_status, views  from top_article where aid = ?", &id)
+		rows, err := DB.Query("select aid, title, content, publish_time, publish_status, views  from top_article where aid = ?", &id)
 		if err != nil {
 			log.Fatal(err)
 		}
