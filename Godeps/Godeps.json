@@ -8,6 +8,10 @@
 			"Rev": "9c0e6bab4dd444285424f189b8fb0cb03f653242"
 		},
 		{
+			"ImportPath": "github.com/fvbock/endless",
+			"Rev": "29731417c69b13f53da28038a454e832c59519c4"
+		},
+		{
 			"ImportPath": "github.com/garyburd/redigo/internal",
 			"Rev": "c973522a287c9afa7350ba1217fd04987d2e4378"
 		},
@@ -28,6 +32,10 @@
 			"ImportPath": "github.com/go-sql-driver/mysql",
 			"Comment": "v1.2-119-g527bcd5",
 			"Rev": "527bcd55aab2e53314f1a150922560174b493034"
+		},
+		{
+			"ImportPath": "github.com/golang/groupcache/lru",
+			"Rev": "604ed5785183e59ae2789449d89e73f3a2a77987"
 		},
 		{
 			"ImportPath": "github.com/gorilla/context",
