@@ -193,12 +193,15 @@ func (fc *FrontController) ViewCtr(c *gin.Context) {
 		}
 		Cache.Add(CKey, blog)
 	}
+	session := sessions.Default(c)
+	username := session.Get("username")
 	c.HTML(http.StatusOK, "view.html", gin.H{
 		"aid":          blog.aid,
 		"title":        blog.title.String,
 		"content":      template.HTML(blog.content.String),
 		"publish_time": blog.publish_time.String,
 		"views":        blog.views,
+		"username":     username,
 	})
 
 }
