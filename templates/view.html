@@ -47,9 +47,11 @@
         <div class="blog-body">
           {{ .content }}</div>
         <div class="blog-orig">
-            <p><a href="https://www.netroby.com/view/{{ .aid }}">http://www.netroby.com/view/{{ .aid }}</a></p>
             <p>Post: {{ .publish_time }}</p>
             <p>Views: {{ .views }}</p>
+            {{if .username}}
+            <p><a href="/admin/editblog/{{ .aid }}">Edit blog</a></p>
+            {{endif}}
         </div>
         <div class="clearfix h10"></div>
         <div class="addthis_sharing_toolbox"></div>
