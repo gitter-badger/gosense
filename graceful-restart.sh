@@ -4,6 +4,7 @@ if [ ! -f config.toml ]; then
     cp config.toml.dist config.toml
 fi
 if [ ! -z $1 ]; then
+    git pull --rebase
     docker run --rm --name go-build -v $(pwd):/www golang sh -c "cd /www ;go get -v ; go build -o /www/gosense "
 fi
 PIDGS=$(docker exec gosense pidof gosense)
