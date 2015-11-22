@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/feeds"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 // RSS controll group
@@ -31,41 +33,46 @@ func (rss *RSS) Out(c *gin.Context) {
 
 	rpp := 20
 	offset := page * rpp
-	CKey := fmt.Sprintf("rss-home-page-%d-rpp-%d", page, rpp)
-	var blogListSlice []apiBlogList
-	val, ok := Cache.Get(CKey)
-	if val != nil && ok == true {
-		fmt.Println("Ok, we found cache, Cache Len: ", Cache.Len())
-		blogListSlice = val.([]apiBlogList)
-	} else {
-		rows, err := DB.Query("Select aid, title from top_article where publish_status = 1 order by aid desc limit ? offset ? ", &rpp, &offset)
-		if err != nil {
-			fmt.Println(err)
-		}
-		defer rows.Close()
-		var (
-			aid   sql.NullString
-			title sql.NullString
-		)
-		blogListSlice = make([]apiBlogList, 0) //Must be zero slice
-		var aBlog apiBlogList
-		for rows.Next() {
-			err := rows.Scan(&aid, &title)
-			if err != nil {
-				fmt.Println(err)
-			}
-			aBlog.Aid = aid.String
-			aBlog.Title = title.String
-			blogListSlice = append(blogListSlice, aBlog)
-		}
-		err = rows.Err()
-		if err != nil {
-			fmt.Println(err)
-		}
-		Cache.Add(CKey, blogListSlice)
+	rows, err := DB.Query("Select aid, title, content, publish_time from top_article where publish_status = 1 order by aid desc limit ? offset ? ", &rpp, &offset)
+	if err != nil {
+		fmt.Println(err)
 	}
-	c.HTML(http.StatusOK, "rss.html", gin.H{
-		"bloglist": blogListSlice,
-		"title":    "title",
-	})
+	defer rows.Close()
+	var (
+		aid          sql.NullString
+		title        sql.NullString
+		content      sql.NullString
+		publish_time sql.NullString
+	)
+
+	now := time.Now()
+	feed := &feeds.Feed{
+		Title:       "HardCoder",
+		Link:        &feeds.Link{Href: "https://www.netroby.com"},
+		Description: "Opensource , linux, golang",
+		Author:      &feeds.Author{"netroby", "netroby@netroby.com"},
+		Created:     now,
+	}
+	feed.Items = make([]*feeds.Item, 0)
+	for rows.Next() {
+		err := rows.Scan(&aid, &title, &content, &publish_time)
+		if err != nil {
+			fmt.Println(err)
+			break
+		}
+		itemTime, err := time.Parse("Mon Jan 2 15:04:05 -0700 MST 2006", publish_time.String)
+		feed.Items = append(feed.Items, &feeds.Item{
+			Title:       title.String,
+			Link:        &feeds.Link{Href: fmt.Sprintf("https://www.netroby.com/view/%s", aid.String)},
+			Description: content.String,
+			Author:      &feeds.Author{"netroby", "netroby#netroby.com"},
+			Created:     itemTime,
+		})
+	}
+
+	rssout, err := feed.ToRss()
+	if err != nil {
+		fmt.Println(err)
+	}
+	c.XML(http.StatusOK, rssout)
 }
