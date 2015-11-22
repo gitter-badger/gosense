@@ -67,7 +67,7 @@
 		},
 		{
 			"ImportPath": "github.com/netroby/feeds",
-			"Rev": "79b65d949ddf68d4e1d18191ea0db0faa9dff79b"
+			"Rev": "f3731b977a89f17be3e6efbecb2279f5ef0e0d26"
 		},
 		{
 			"ImportPath": "golang.org/x/net/context",
