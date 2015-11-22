@@ -69,5 +69,5 @@ func (rss *RSS) Out(c *gin.Context) {
 			Created:     itemTime,
 		})
 	}
-	c.XML(http.StatusOK, feed)
+	c.XML(http.StatusOK, &feeds.Rss{feed})
 }
