@@ -50,7 +50,6 @@ func (rss *RSS) Out(c *gin.Context) {
 		Title:       "HardCoder",
 		Link:        &feeds.Link{Href: "https://www.netroby.com"},
 		Description: "Opensource , linux, golang",
-		Author:      &feeds.Author{"netroby", "netroby@netroby.com"},
 		Created:     now,
 	}
 	feed.Items = make([]*feeds.Item, 0)
@@ -60,12 +59,11 @@ func (rss *RSS) Out(c *gin.Context) {
 			fmt.Println(err)
 			break
 		}
-		itemTime, err := time.Parse("Mon Jan 2 15:04:05 -0700 MST 2006", publish_time.String)
+		itemTime, err := time.Parse("2006-01-02 15:04:05", publish_time.String)
 		feed.Items = append(feed.Items, &feeds.Item{
 			Title:       title.String,
 			Link:        &feeds.Link{Href: fmt.Sprintf("https://www.netroby.com/view/%s", aid.String)},
 			Description: content.String,
-			Author:      &feeds.Author{"netroby", "netroby#netroby.com"},
 			Created:     itemTime,
 		})
 	}
