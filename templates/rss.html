@@ -5,13 +5,15 @@
   <description><![CDATA[Focus on code, tech, opensource, linux, unix, performance.]]></description>
   <link><![CDATA[https://www.netroby.com]]></link>
   <pubDate>{{ .date }}</pubDate>
-<!--\{\{\range BlogList\}\}-->
+  {{if .bloglist }}
+{{range bloglist}}
   <item>
 	<title><![CDATA[{{ .title }}]]></title>
 	<link><![CDATA[http://www.netroby.com/view.php?id={{ .aid }]]></link>
 	<description><![CDATA[{{ .content }}]]></description>
 	<pubDate>{{ .publish_time }}</pubDate>
   </item>
-<!--\{\{end\}\}-->
+{{end}}
+{{end}}
 </channel>
 </rss>
