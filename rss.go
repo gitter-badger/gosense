@@ -69,10 +69,5 @@ func (rss *RSS) Out(c *gin.Context) {
 			Created:     itemTime,
 		})
 	}
-
-	rssout, err := feed.ToRss()
-	if err != nil {
-		fmt.Println(err)
-	}
-	c.XML(http.StatusOK, rssout)
+	c.XML(http.StatusOK, feed)
 }
