@@ -57,6 +57,7 @@ func main() {
 		api.GET("view/:id", a.view)
 	}
 	rss := new(RSS)
+	r.GET("/rss.php", rss.Alter)
 	r.GET("/rss", rss.Out)
 	// Listen and serve on 0.0.0.0:8080
 	endless.ListenAndServe(":8080", r)

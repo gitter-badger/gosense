@@ -15,6 +15,10 @@ import (
 type RSS struct {
 }
 
+func (rss *RSS) Alter(c *gin.Context) {
+	c.Redirect(301, "/rss")
+}
+
 // Out Render and output RSS
 func (rss *RSS) Out(c *gin.Context) {
 	page, err := strconv.Atoi(c.DefaultQuery("page", "1"))
