@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/gorilla/feeds"
+	"github.com/netroby/feeds"
 	"net/http"
 	"strconv"
 	"time"

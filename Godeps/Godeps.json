@@ -42,10 +42,6 @@
 			"Rev": "1c83b3eabd45b6d76072b66b746c20815fb2872d"
 		},
 		{
-			"ImportPath": "github.com/gorilla/feeds",
-			"Rev": "4c1594f80c8bce202a3630d88839e1e5112f0d5b"
-		},
-		{
 			"ImportPath": "github.com/gorilla/securecookie",
 			"Rev": "e95799a481bbcc3d01c2ad5178524cb8bec9f370"
 		},
@@ -68,6 +64,10 @@
 		{
 			"ImportPath": "github.com/naoina/toml",
 			"Rev": "751171607256bb66e64c9f0220c00662420c38e9"
+		},
+		{
+			"ImportPath": "github.com/netroby/feeds",
+			"Rev": "79b65d949ddf68d4e1d18191ea0db0faa9dff79b"
 		},
 		{
 			"ImportPath": "golang.org/x/net/context",
