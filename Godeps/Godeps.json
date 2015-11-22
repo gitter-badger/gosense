@@ -13,11 +13,11 @@
 		},
 		{
 			"ImportPath": "github.com/garyburd/redigo/internal",
-			"Rev": "c973522a287c9afa7350ba1217fd04987d2e4378"
+			"Rev": "6ece6e0a09f28cc399b21550cbf37ab39ba63cce"
 		},
 		{
 			"ImportPath": "github.com/garyburd/redigo/redis",
-			"Rev": "c973522a287c9afa7350ba1217fd04987d2e4378"
+			"Rev": "6ece6e0a09f28cc399b21550cbf37ab39ba63cce"
 		},
 		{
 			"ImportPath": "github.com/gin-gonic/contrib/sessions",
@@ -30,8 +30,8 @@
 		},
 		{
 			"ImportPath": "github.com/go-sql-driver/mysql",
-			"Comment": "v1.2-119-g527bcd5",
-			"Rev": "527bcd55aab2e53314f1a150922560174b493034"
+			"Comment": "v1.2-125-gd512f20",
+			"Rev": "d512f204a577a4ab037a1816604c48c9c13210be"
 		},
 		{
 			"ImportPath": "github.com/golang/groupcache/lru",
@@ -55,11 +55,11 @@
 		},
 		{
 			"ImportPath": "github.com/mattn/go-colorable",
-			"Rev": "40e4aedc8fabf8c23e040057540867186712faa5"
+			"Rev": "51a7e7a8b1665b25ca173debdc8d52d493348f15"
 		},
 		{
 			"ImportPath": "github.com/naoina/go-stringutil",
-			"Rev": "360db0db4b01d34e12a2ec042c09e7d37fece761"
+			"Rev": "6b638e95a32d0c1131db0e7fe83775cbea4a0d0b"
 		},
 		{
 			"ImportPath": "github.com/naoina/toml",
@@ -71,7 +71,7 @@
 		},
 		{
 			"ImportPath": "golang.org/x/net/context",
-			"Rev": "d8f3c68ddd4bb686ca3bd70e49bbc64b80c78144"
+			"Rev": "4f2fc6c1e69d41baf187332ee08fbd2b296f21ed"
 		},
 		{
 			"ImportPath": "gopkg.in/bluesuncorp/validator.v5",
