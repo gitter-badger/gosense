@@ -25,7 +25,7 @@ func (fc *FrontController) PingCtr(c *gin.Context) {
 func (fc *FrontController) HomeCtr(c *gin.Context) {
 	page, err := strconv.Atoi(c.DefaultQuery("page", "1"))
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 	}
 	page -= 1
 	if page < 0 {
@@ -49,7 +49,7 @@ func (fc *FrontController) HomeCtr(c *gin.Context) {
 	} else {
 		rows, err := DB.Query("Select aid, title from top_article where publish_status = 1 order by aid desc limit ? offset ? ", &rpp, &offset)
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println(err)
 		}
 		defer rows.Close()
 		var (
@@ -59,7 +59,7 @@ func (fc *FrontController) HomeCtr(c *gin.Context) {
 		for rows.Next() {
 			err := rows.Scan(&aid, &title)
 			if err != nil {
-				log.Fatal(err)
+				fmt.Println(err)
 			}
 			blogList += fmt.Sprintf(
 				"<li><a href=\"/view/%d\">%s</a></li>",
@@ -69,7 +69,7 @@ func (fc *FrontController) HomeCtr(c *gin.Context) {
 		}
 		err = rows.Err()
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println(err)
 		}
 		Cache.Add(CKey, blogList)
 	}
@@ -86,7 +86,7 @@ func (fc *FrontController) HomeCtr(c *gin.Context) {
 func (fc *FrontController) SearchCtr(c *gin.Context) {
 	page, err := strconv.Atoi(c.DefaultQuery("page", "1"))
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 	}
 	page -= 1
 	if page < 0 {
@@ -114,7 +114,7 @@ func (fc *FrontController) SearchCtr(c *gin.Context) {
 		"Select aid, title from top_article where publish_status = 1 and (title like ? or content like ?) order by aid desc limit ? offset ? ",
 		"%"+keyword+"%", "%"+keyword+"%", &rpp, &offset)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 	}
 	defer rows.Close()
 	var (
@@ -124,7 +124,7 @@ func (fc *FrontController) SearchCtr(c *gin.Context) {
 	for rows.Next() {
 		err := rows.Scan(&aid, &title)
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println(err)
 		}
 		blogList += fmt.Sprintf(
 			"<li><a href=\"/view/%d\">%s</a></li>",
@@ -134,7 +134,7 @@ func (fc *FrontController) SearchCtr(c *gin.Context) {
 	}
 	err = rows.Err()
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 	}
 	session := sessions.Default(c)
 	username := session.Get("username")
@@ -177,19 +177,19 @@ func (fc *FrontController) ViewCtr(c *gin.Context) {
 	} else {
 		rows, err := DB.Query("select aid, title, content, publish_time, publish_status, views from top_article where aid = ?", &id)
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println(err)
 		}
 		defer rows.Close()
 		var ()
 		for rows.Next() {
 			err := rows.Scan(&blog.aid, &blog.title, &blog.content, &blog.publish_time, &blog.publish_status, &blog.views)
 			if err != nil {
-				log.Fatal(err)
+				fmt.Println(err)
 			}
 		}
 		err = rows.Err()
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println(err)
 		}
 		Cache.Add(CKey, blog)
 	}
