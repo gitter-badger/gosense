@@ -68,6 +68,8 @@ type appConfig struct {
 	Db_password    string
 	Admin_user     string
 	Admin_password string
+	Site_name	string
+	Site_description string
 }
 
 func GetConfig() *appConfig {
