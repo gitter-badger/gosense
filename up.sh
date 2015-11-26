@@ -3,7 +3,7 @@ set -ex
 if [ ! -f config.toml ]; then
     cp config.toml.dist config.toml
 fi
-docker run --rm --name go-build -v $(pwd):/www golang sh -c "cd /www ;go get -v ; go build -o /www/gosense "
+docker run --rm --name go-build -v $HOME/go:/go -v $(pwd):/www golang sh -c "cd /www ;go get -v ; go build -o /www/gosense "
 if [ $(docker ps -a | grep gs_db | wc -l) -le 0 ]; then
     docker run --restart=always -d --name gs_db  netroby/docker-mysql
     while true; do
