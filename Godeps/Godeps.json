@@ -50,6 +50,10 @@
 			"Rev": "f7261893ca3ea922c30eabe742c036d2c1de6e0a"
 		},
 		{
+			"ImportPath": "github.com/jaytaylor/html2text",
+			"Rev": "4936b6c2ae7f89f5eeba2473c31fd27ea8f11068"
+		},
+		{
 			"ImportPath": "github.com/manucorporat/sse",
 			"Rev": "fe6ea2c8e398672518ef204bf0fbd9af858d0e15"
 		},
@@ -71,7 +75,11 @@
 		},
 		{
 			"ImportPath": "golang.org/x/net/context",
-			"Rev": "4f2fc6c1e69d41baf187332ee08fbd2b296f21ed"
+			"Rev": "b4e17d61b15679caf2335da776c614169a1b4643"
+		},
+		{
+			"ImportPath": "golang.org/x/net/html",
+			"Rev": "b4e17d61b15679caf2335da776c614169a1b4643"
 		},
 		{
 			"ImportPath": "gopkg.in/bluesuncorp/validator.v5",

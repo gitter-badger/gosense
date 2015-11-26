@@ -61,14 +61,14 @@ func GetDB(config *appConfig) *sql.DB {
 }
 
 type appConfig struct {
-	Db_host        string
-	Db_port        int
-	Db_name        string
-	Db_user        string
-	Db_password    string
-	Admin_user     string
-	Admin_password string
-	Site_name	string
+	Db_host          string
+	Db_port          int
+	Db_name          string
+	Db_user          string
+	Db_password      string
+	Admin_user       string
+	Admin_password   string
+	Site_name        string
 	Site_description string
 }
 

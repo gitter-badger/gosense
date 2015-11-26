@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jaytaylor/html2text"
 	"log"
 	"net/http"
 	"strconv"
@@ -119,5 +120,11 @@ func (a *api) view(c *gin.Context) {
 		Cache.Add(CKey, b)
 	}
 	fmt.Println(b)
+	text, err := html2text.FromString(b.Content)
+	if err != nil {
+		fmt.Println("Error when convert html to text")
+	} else {
+		b.Content = text
+	}
 	c.JSON(http.StatusOK, b)
 }
