@@ -75,6 +75,8 @@ func (fc *FrontController) HomeCtr(c *gin.Context) {
 	session := sessions.Default(c)
 	username := session.Get("username")
 	c.HTML(http.StatusOK, "index.html", gin.H{
+		"site_name": Config.Site_name,
+		"site_description": Config.Site_description,
 		"bloglist":  template.HTML(blogList),
 		"username":  username,
 		"prev_page": prev_page,
@@ -139,6 +141,8 @@ func (fc *FrontController) SearchCtr(c *gin.Context) {
 	username := session.Get("username")
 
 	c.HTML(http.StatusOK, "search.html", gin.H{
+		"site_name": Config.Site_name,
+		"site_description": Config.Site_description,
 		"bloglist":  template.HTML(blogList),
 		"keyword":   orig_keyword,
 		"username":  username,
@@ -195,6 +199,8 @@ func (fc *FrontController) ViewCtr(c *gin.Context) {
 	session := sessions.Default(c)
 	username := session.Get("username")
 	c.HTML(http.StatusOK, "view.html", gin.H{
+		"site_name": Config.Site_name,
+		"site_description": Config.Site_description,
 		"aid":          blog.aid,
 		"title":        blog.title.String,
 		"content":      template.HTML(blog.content.String),

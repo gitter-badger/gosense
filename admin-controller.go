@@ -93,6 +93,8 @@ func (ac *AdminController) ListBlogCtr(c *gin.Context) {
 		log.Fatal(err)
 	}
 	c.HTML(http.StatusOK, "admin.list.blog.html", gin.H{
+		"site_name": Config.Site_name,
+		"site_description": Config.Site_description,
 		"bloglist":  template.HTML(blogList),
 		"username":  username,
 		"prev_page": prev_page,
@@ -134,6 +136,8 @@ func (ac *AdminController) EditBlogCtr(c *gin.Context) {
 		Cache.Add(CKey, blog)
 	}
 	c.HTML(http.StatusOK, "edit-blog.html", gin.H{
+		"site_name": Config.Site_name,
+		"site_description": Config.Site_description,
 		"aid":          blog.aid,
 		"title":        blog.title.String,
 		"content":      template.HTML(blog.content.String),
@@ -171,7 +175,10 @@ func (ac *AdminController) AddBlogCtr(c *gin.Context) {
 		(&umsg{"You have no permission", "/"}).ShowMessage(c)
 		return
 	}
-	c.HTML(http.StatusOK, "add-blog.html", gin.H{})
+	c.HTML(http.StatusOK, "add-blog.html", gin.H{		
+		"site_name": Config.Site_name,
+		"site_description": Config.Site_description,
+	})
 }
 
 func (ac *AdminController) SaveBlogEditCtr(c *gin.Context) {
