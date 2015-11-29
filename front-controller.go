@@ -75,12 +75,12 @@ func (fc *FrontController) HomeCtr(c *gin.Context) {
 	session := sessions.Default(c)
 	username := session.Get("username")
 	c.HTML(http.StatusOK, "index.html", gin.H{
-		"site_name": Config.Site_name,
+		"site_name":        Config.Site_name,
 		"site_description": Config.Site_description,
-		"bloglist":  template.HTML(blogList),
-		"username":  username,
-		"prev_page": prev_page,
-		"next_page": next_page,
+		"bloglist":         template.HTML(blogList),
+		"username":         username,
+		"prev_page":        prev_page,
+		"next_page":        next_page,
 	})
 }
 
@@ -141,13 +141,13 @@ func (fc *FrontController) SearchCtr(c *gin.Context) {
 	username := session.Get("username")
 
 	c.HTML(http.StatusOK, "search.html", gin.H{
-		"site_name": Config.Site_name,
+		"site_name":        Config.Site_name,
 		"site_description": Config.Site_description,
-		"bloglist":  template.HTML(blogList),
-		"keyword":   orig_keyword,
-		"username":  username,
-		"prev_page": prev_page,
-		"next_page": next_page,
+		"bloglist":         template.HTML(blogList),
+		"keyword":          orig_keyword,
+		"username":         username,
+		"prev_page":        prev_page,
+		"next_page":        next_page,
 	})
 }
 
@@ -162,10 +162,12 @@ func (fc *FrontController) CountViewCtr(c *gin.Context) {
 		fmt.Println("Can not get id")
 		return
 	}
-	_, err = DB.Exec("update top_article set views=views+1 where aid = ?", &id)
-	if err != nil {
-		fmt.Println(err)
-	}
+	go func(id int) {
+		_, err = DB.Exec("update top_article set views=views+1 where aid = ?", &id)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}(id)
 	c.String(http.StatusOK, "[1]")
 }
 
@@ -199,14 +201,14 @@ func (fc *FrontController) ViewCtr(c *gin.Context) {
 	session := sessions.Default(c)
 	username := session.Get("username")
 	c.HTML(http.StatusOK, "view.html", gin.H{
-		"site_name": Config.Site_name,
+		"site_name":        Config.Site_name,
 		"site_description": Config.Site_description,
-		"aid":          blog.aid,
-		"title":        blog.title.String,
-		"content":      template.HTML(blog.content.String),
-		"publish_time": blog.publish_time.String,
-		"views":        blog.views,
-		"username":     username,
+		"aid":              blog.aid,
+		"title":            blog.title.String,
+		"content":          template.HTML(blog.content.String),
+		"publish_time":     blog.publish_time.String,
+		"views":            blog.views,
+		"username":         username,
 	})
 
 }
