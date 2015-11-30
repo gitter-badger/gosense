@@ -163,7 +163,7 @@ func (fc *FrontController) CountViewCtr(c *gin.Context) {
 		return
 	}
 	go func(id int) {
-		_, err = DB.Exec("update top_article set views=views+1 where aid = ?", &id)
+		_, err = DB.Exec("update top_article set views=views+1 where aid = ? limit 1", &id)
 		if err != nil {
 			fmt.Println(err)
 		}
