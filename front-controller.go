@@ -70,7 +70,9 @@ func (fc *FrontController) HomeCtr(c *gin.Context) {
 		if err != nil {
 			fmt.Println(err)
 		}
-		Cache.Add(CKey, blogList)
+		go func(CKey string, blogList string) {
+			Cache.Add(CKey, blogList)
+		}(CKey, blogList)
 	}
 	session := sessions.Default(c)
 	username := session.Get("username")
@@ -196,7 +198,9 @@ func (fc *FrontController) ViewCtr(c *gin.Context) {
 		if err != nil {
 			fmt.Println(err)
 		}
-		Cache.Add(CKey, blog)
+		go func(CKey string, blog VBlogItem) {
+			Cache.Add(CKey, blog)
+		}(CKey, blog)
 	}
 	session := sessions.Default(c)
 	username := session.Get("username")
