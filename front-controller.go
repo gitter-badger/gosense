@@ -179,7 +179,6 @@ func (fc *FrontController) ViewCtr(c *gin.Context) {
 	CKey := fmt.Sprintf("blogitem-%d", id)
 	val, ok := Cache.Get(CKey)
 	if val != nil && ok == true {
-		fmt.Println("Ok, we found cache, Cache Len: ", Cache.Len())
 		blog = val.(VBlogItem)
 	} else {
 		rows, err := DB.Query("select aid, title, content, publish_time, publish_status, views from top_article where aid = ? limit 1", &id)
