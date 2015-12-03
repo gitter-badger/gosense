@@ -41,7 +41,6 @@ func (a *api) index(c *gin.Context) {
 	var blogListSlice []apiBlogList
 	val, ok := Cache.Get(CKey)
 	if val != nil && ok == true {
-		fmt.Println("Ok, we found cache, Cache Len: ", Cache.Len())
 		blogListSlice = val.([]apiBlogList)
 	} else {
 		rows, err := DB.Query("Select aid, title from top_article where publish_status = 1 order by aid desc limit ? offset ? ", &rpp, &offset)
