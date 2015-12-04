@@ -89,7 +89,6 @@ func (a *api) view(c *gin.Context) {
 	val, ok := Cache.Get(CKey)
 	fmt.Println(val)
 	if val != nil && ok == true {
-		fmt.Println("Ok, we found cache, Cache Len: ", Cache.Len())
 		b = val.(apiBlogItem)
 	} else {
 		rows, err := DB.Query("Select aid, title, content from top_article where aid =  ? limit 1 ", &aid)
