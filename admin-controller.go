@@ -202,7 +202,7 @@ func (ac *AdminController) SaveBlogEditCtr(c *gin.Context) {
 		(&umsg{"Content can not empty", "/"}).ShowMessage(c)
 		return
 	}
-	_, err := DB.Exec("update top_article set title=?, content=? where aid = ?", BI.Title, BI.Content, BI.Aid)
+	_, err := DB.Exec("update top_article set title=?, content=? where aid = ? limit 1", BI.Title, BI.Content, BI.Aid)
 	if err == nil {
 		Cache = lru.New(8192)
 		(&umsg{"Success", "/"}).ShowMessage(c)
