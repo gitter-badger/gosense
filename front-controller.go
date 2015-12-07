@@ -164,12 +164,10 @@ func (fc *FrontController) CountViewCtr(c *gin.Context) {
 		fmt.Println("Can not get id")
 		return
 	}
-	go func(id int) {
-		_, err = DB.Exec("update top_article set views=views+1 where aid = ? limit 1", &id)
-		if err != nil {
-			fmt.Println(err)
-		}
-	}(id)
+	_, err = DB.Exec("update top_article set views=views+1 where aid = ? limit 1", &id)
+	if err != nil {
+		fmt.Println(err)
+	}
 	c.String(http.StatusOK, "[1]")
 }
 
