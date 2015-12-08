@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"time"
 )
 
 type ShowMessage interface {
@@ -47,6 +48,10 @@ func (m *umsg) ShowMessage(c *gin.Context) {
 		"message": template.HTML(m.msg),
 		"url":     m.url,
 	})
+}
+
+func GetMinutes() string {
+	return time.Now().Format("200601021504")
 }
 
 func GetDB(config *appConfig) *sql.DB {
