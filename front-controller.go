@@ -174,7 +174,7 @@ func (fc *FrontController) CountViewCtr(c *gin.Context) {
 func (fc *FrontController) ViewCtr(c *gin.Context) {
 	id := c.Param("id")
 	var blog VBlogItem
-	CKey := fmt.Sprintf("blogitem-%d", id)
+	CKey := fmt.Sprintf("%s-blogitem-%d", GetMinutes(), id)
 	val, ok := Cache.Get(CKey)
 	if val != nil && ok == true {
 		blog = val.(VBlogItem)
