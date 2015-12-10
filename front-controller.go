@@ -39,7 +39,7 @@ func (fc *FrontController) HomeCtr(c *gin.Context) {
 
 	rpp := 20
 	offset := page * rpp
-	CKey := fmt.Sprintf("home-page-%d-rpp-%d", page, rpp)
+	CKey := fmt.Sprintf("%s-home-page-%d-rpp-%d", GetMinutes(), page, rpp)
 	var blogList string
 	val, ok := Cache.Get(CKey)
 	if val != nil && ok == true {
