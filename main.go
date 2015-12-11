@@ -9,16 +9,17 @@ import (
 )
 
 var (
-	Config *appConfig
-	DB     *sql.DB
-	Cache  *lru.Cache
+	Config    *appConfig
+	DB        *sql.DB
+	Cache     *lru.Cache
+	CacheSize int = 8192
 )
 
 func main() {
 
 	Config = GetConfig()
 	DB = GetDB(Config)
-	Cache = lru.New(8192)
+	Cache = lru.New(CacheSize)
 
 	r := gin.Default()
 	r.Static("/assets", "assets")
