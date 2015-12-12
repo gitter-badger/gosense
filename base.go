@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/naoina/toml"
+	_ "github.com/netroby/mysql"
 	"html/template"
 	"io/ioutil"
 	"net/http"
@@ -50,7 +50,7 @@ func (m *umsg) ShowMessage(c *gin.Context) {
 }
 
 func GetDB(config *appConfig) *sql.DB {
-	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4",
+	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?timeout=30s&charset=utf8mb4",
 		config.Db_user, config.Db_password, config.Db_host, config.Db_port, config.Db_name))
 	if err != nil {
 		panic(err.Error())

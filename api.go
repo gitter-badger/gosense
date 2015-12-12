@@ -5,8 +5,8 @@ import (
 
 	"database/sql"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/jaytaylor/html2text"
+	_ "github.com/netroby/mysql"
 	"log"
 	"net/http"
 	"strconv"
