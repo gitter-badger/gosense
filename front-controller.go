@@ -39,7 +39,7 @@ func (fc *FrontController) HomeCtr(c *gin.Context) {
 
 	rpp := 20
 	offset := page * rpp
-	CKey := fmt.Sprintf("home-page-%d-rpp-%d", page, rpp)
+	CKey := fmt.Sprintf("%s-home-page-%d-rpp-%d", GetMinutes(), page, rpp)
 	var blogList string
 	val, ok := Cache.Get(CKey)
 	if val != nil && ok == true {
@@ -70,7 +70,9 @@ func (fc *FrontController) HomeCtr(c *gin.Context) {
 		if err != nil {
 			fmt.Println(err)
 		}
-		Cache.Add(CKey, blogList)
+		go func(CKey string, blogList string) {
+			Cache.Add(CKey, blogList)
+		}(CKey, blogList)
 	}
 	session := sessions.Default(c)
 	username := session.Get("username")
@@ -162,22 +164,19 @@ func (fc *FrontController) CountViewCtr(c *gin.Context) {
 		fmt.Println("Can not get id")
 		return
 	}
-	go func(id int) {
-		_, err = DB.Exec("update top_article set views=views+1 where aid = ? limit 1", &id)
-		if err != nil {
-			fmt.Println(err)
-		}
-	}(id)
+	_, err = DB.Exec("update top_article set views=views+1 where aid = ? limit 1", &id)
+	if err != nil {
+		fmt.Println(err)
+	}
 	c.String(http.StatusOK, "[1]")
 }
 
 func (fc *FrontController) ViewCtr(c *gin.Context) {
 	id := c.Param("id")
 	var blog VBlogItem
-	CKey := fmt.Sprintf("blogitem-%d", id)
+	CKey := fmt.Sprintf("%s-blogitem-%d", GetMinutes(), id)
 	val, ok := Cache.Get(CKey)
 	if val != nil && ok == true {
-		fmt.Println("Ok, we found cache, Cache Len: ", Cache.Len())
 		blog = val.(VBlogItem)
 	} else {
 		rows, err := DB.Query("select aid, title, content, publish_time, publish_status, views from top_article where aid = ? limit 1", &id)
@@ -196,7 +195,9 @@ func (fc *FrontController) ViewCtr(c *gin.Context) {
 		if err != nil {
 			fmt.Println(err)
 		}
-		Cache.Add(CKey, blog)
+		go func(CKey string, blog VBlogItem) {
+			Cache.Add(CKey, blog)
+		}(CKey, blog)
 	}
 	session := sessions.Default(c)
 	username := session.Get("username")

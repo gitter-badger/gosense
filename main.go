@@ -9,16 +9,17 @@ import (
 )
 
 var (
-	Config *appConfig
-	DB     *sql.DB
-	Cache  *lru.Cache
+	Config    *appConfig
+	DB        *sql.DB
+	Cache     *lru.Cache
+	CacheSize int = 8192
 )
 
 func main() {
 
 	Config = GetConfig()
 	DB = GetDB(Config)
-	Cache = lru.New(8192)
+	Cache = lru.New(CacheSize)
 
 	r := gin.Default()
 	r.Static("/assets", "assets")
@@ -59,6 +60,5 @@ func main() {
 	rss := new(RSS)
 	r.GET("/rss.php", rss.Alter)
 	r.GET("/rss", rss.Out)
-	// Listen and serve on 0.0.0.0:8080
 	endless.ListenAndServe(":8080", r)
 }

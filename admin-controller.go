@@ -161,7 +161,7 @@ func (ac *AdminController) DeleteBlogCtr(c *gin.Context) {
 	}
 	_, err := DB.Exec("delete from top_article where aid = ? limit 1", BI.Aid)
 	if err == nil {
-		Cache = lru.New(8192)
+		Cache = lru.New(CacheSize)
 		(&umsg{"Deleted Success", "/"}).ShowMessage(c)
 	} else {
 		(&umsg{"Failed to delete blog", "/"}).ShowMessage(c)
@@ -202,9 +202,9 @@ func (ac *AdminController) SaveBlogEditCtr(c *gin.Context) {
 		(&umsg{"Content can not empty", "/"}).ShowMessage(c)
 		return
 	}
-	_, err := DB.Exec("update top_article set title=?, content=? where aid = ?", BI.Title, BI.Content, BI.Aid)
+	_, err := DB.Exec("update top_article set title=?, content=? where aid = ? limit 1", BI.Title, BI.Content, BI.Aid)
 	if err == nil {
-		Cache = lru.New(8192)
+		Cache = lru.New(CacheSize)
 		(&umsg{"Success", "/"}).ShowMessage(c)
 	} else {
 		(&umsg{"Failed to save blog", "/"}).ShowMessage(c)
@@ -232,7 +232,7 @@ func (ac *AdminController) SaveBlogAddCtr(c *gin.Context) {
 		"insert into top_article (title, content, publish_time, publish_status) values (?, ?, ?, 1)",
 		BI.Title, BI.Content, time.Now().Format("2006-01-02 15:04:05"))
 	if err == nil {
-		Cache = lru.New(8192)
+		Cache = lru.New(CacheSize)
 		(&umsg{"Success", "/"}).ShowMessage(c)
 	} else {
 		(&umsg{"Failed to save blog", "/"}).ShowMessage(c)
