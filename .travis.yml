@@ -4,8 +4,9 @@ go:
     - 1.5
 
 install:
-    - go get -u -v
+    - go get github.com/masterminds/glide
 
 script:
+    - glide install
     - go build -v
     - ls -l
