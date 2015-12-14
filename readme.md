@@ -14,8 +14,30 @@ godep go build
 Or you can install docker, then run docker container 
 
 ```
+# to install docker on your platform
+# wget -qO- get.docker.com | sudo sh
 git clone https://github.com/netroby/gosense.git
 ./up.sh
+```
+Make sure your docker verision 1.9.1+
+```
+$ docker version
+Client:
+ Version:      1.9.1
+ API version:  1.21
+ Go version:   go1.4.2
+ Git commit:   a34a1d5
+ Built:        Fri Nov 20 13:20:08 UTC 2015
+ OS/Arch:      linux/amd64
+
+Server:
+ Version:      1.9.1
+ API version:  1.21
+ Go version:   go1.4.2
+ Git commit:   a34a1d5
+ Built:        Fri Nov 20 13:20:08 UTC 2015
+ OS/Arch:      linux/amd64
+
 ```
 
 Once you docker up and running, you may access demo via http://127.0.0.1:8080
