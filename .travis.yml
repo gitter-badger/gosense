@@ -5,6 +5,7 @@ go:
 
 
 script:
+     - go get -u -v
      - go get github.com/tools/godep
      - godep get  -v
      - godep go build -v
