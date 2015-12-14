@@ -4,11 +4,8 @@ go:
     - 1.5
 
 install:
-    - go get github.com/tools/godep
     - go get -u -v
 
 script:
-    - godep get -v
-    - godep restore 
-    - godep go build -v
+    - go build -v
     - ls -l
