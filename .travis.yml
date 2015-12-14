@@ -1,11 +1,14 @@
 language: go
 
 go:
-  - 1.5
+    - 1.5
 
 install:
+    - go get github.com/tools/godep
     - go get -u -v
 
 script:
-     - go build -v
-     - ls -l
+    - godep get -v
+    - godep restore 
+    - godep go build -v
+    - ls -l
