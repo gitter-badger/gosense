@@ -41,6 +41,9 @@ Server:
 ```
 
 Once you docker up and running, you may access demo via http://127.0.0.1:8080
+To login, you need visit http://127.0.0.1:8080/admin/login  (The password will be found in config.toml file)
+To create blog , you can visit http://127.0.0.1:8080/admin/addblog
+
 
 
 ## Graceful restart 
