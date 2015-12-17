@@ -1,4 +1,4 @@
-db_host = "db"
+db_host = "gs_db"
 db_port = 3306
 db_name = "gosense"
 db_user = "root"
