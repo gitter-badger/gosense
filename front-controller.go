@@ -16,7 +16,10 @@ type FrontController struct {
 }
 
 func (fc *FrontController) AboutCtr(c *gin.Context) {
-	c.HTML(http.StatusOK, "about.html", gin.H{})
+	c.HTML(http.StatusOK, "about.html", gin.H{		
+		"site_name":        Config.Site_name,
+		"site_description": Config.Site_description,
+	})
 }
 func (fc *FrontController) PingCtr(c *gin.Context) {
 	c.String(http.StatusOK, "pong")
