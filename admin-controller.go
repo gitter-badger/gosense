@@ -233,7 +233,7 @@ func (ac *AdminController) SaveBlogAddCtr(c *gin.Context) {
 		fmt.Println(err.Error())
 		return
 	}
-	_, err := DB.Exec(
+	_, err = DB.Exec(
 		"insert into top_article (title, content, publish_time, publish_status) values (?, ?, ?, 1)",
 		BI.Title, BI.Content, time.Now().In(loc).Format("2006-01-02 15:04:05"))
 	if err == nil {
