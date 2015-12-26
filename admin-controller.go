@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/golang/groupcache/lru"
+	"github.com/ncw/swift"
 	_ "github.com/netroby/mysql"
 	"html/template"
 	"log"
@@ -243,6 +244,56 @@ func (ac *AdminController) SaveBlogAddCtr(c *gin.Context) {
 		(&umsg{"Failed to save blog", "/"}).ShowMessage(c)
 	}
 
+}
+
+func (ac *AdminController) Files(c *gin.Context) {
+	session := sessions.Default(c)
+	username := session.Get("username")
+	if username == nil {
+		(&umsg{"You have no permission", "/"}).ShowMessage(c)
+		return
+	}
+	c.HTML(http.StatusOK, "admin-files.html", gin.H{})
+}
+func (ac *AdminController) FileUpload(c *gin.Context) {
+	conn := swift.Connection{
+		UserName: Config.ObjectStorage.ApiUser,
+		ApiKey:   Config.ObjectStorage.ApiKey,
+		AuthUrl:  Config.ObjectStorage.ApiAuth,
+		Tenant:   Config.ObjectStorage.ApiTenant,
+		Region:   Config.ObjectStorage.ApiRegion,
+	}
+	err := conn.Authenticate()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	containers, err := conn.ContainerNames(nil)
+	fmt.Println(containers)
+	file, fileHeader, err := c.Request.FormFile("uploadfile")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	loc, err := time.LoadLocation("Asia/Shanghai")
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	prefix := time.Now().In(loc).Format("2006/01/02")
+	err = conn.ObjectPut(
+		Config.ObjectStorage.ApiContainer,
+		fmt.Sprintf("%s/%s", prefix, fileHeader.Filename),
+		file,
+		false,
+		"",
+		fileHeader.Header.Get("Content-Type"),
+		swift.Headers{},
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
+	(&umsg{"Upload success", "/"}).ShowMessage(c)
 }
 
 func (ac *AdminController) LoginCtr(c *gin.Context) {
