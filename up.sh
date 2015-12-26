@@ -32,5 +32,5 @@ fi
 if [ $(docker ps -a | grep gosense | wc -l) -eq 1 ]; then
     docker rm -vf gosense
 fi
-docker run --restart=always --net=gosense-network -d -p 8080:8080  -v $(pwd):/www --name gosense ubuntu:wily  sh -c "cd /www && /www/gosense"
+docker run --restart=always --net=gosense-network -d -p 8080:8080  -v $(pwd):/www --name gosense golang  sh -c "cd /www && /www/gosense"
 
