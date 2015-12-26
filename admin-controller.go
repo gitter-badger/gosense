@@ -320,7 +320,7 @@ func (ac *AdminController) FileUpload(c *gin.Context) {
 	}
 	prefix := time.Now().In(loc).Format("2006/01/02")
 	body, err := ioutil.ReadAll(file)
-	_, err = conn.ObjectPutBytes(
+	err = conn.ObjectPutBytes(
 		Config.ObjectStorage.ApiContainer,
 		fmt.Sprintf("%s/%s", prefix, fileHeader.Filename),
 		body,
