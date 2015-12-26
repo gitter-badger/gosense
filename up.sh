@@ -17,7 +17,11 @@ if [ $(docker ps -a | grep gs_db | wc -l) -le 0 ]; then
             sleep 2
         fi
     done
- fi
+else
+    docker network disconnect gosense-network gs_db
+    docker network connect gosense-network gs_db
+fi
+
 
 # If database not found, then we import database 
 if [ $(docker exec gs_db mysql -u root -h 127.0.0.1 -e "use gosense;" | grep -i unkown  | wc -l) -eq 1 ]; then
