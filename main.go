@@ -49,6 +49,8 @@ func main() {
 		admin.GET("/deleteblog/:id", ac.DeleteBlogCtr)
 		admin.POST("/save-blog-edit", ac.SaveBlogEditCtr)
 		admin.GET("/editblog/:id", ac.EditBlogCtr)
+		admin.GET("/files", ac.Files)
+		admin.POST("/fileupload", ac.FileUpload)
 	}
 
 	a := new(api)
