@@ -14,6 +14,7 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+	"runtime/debug"
 )
 
 // AdminLoginForm is the login form for Admin
@@ -267,11 +268,13 @@ func (ac *AdminController) FileUpload(c *gin.Context) {
 	err := conn.Authenticate()
 	if err != nil {
 		fmt.Println(err)
+		debug.PrintStack()
 		return
 	}
 	containers, err := conn.ContainerNames(nil)
 	if err != nil {
 		fmt.Println(err)
+		debug.PrintStack()
 		return
 	}
 	fmt.Println(containers)
