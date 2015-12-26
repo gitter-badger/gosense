@@ -287,8 +287,8 @@ func (ac *AdminController) FileUpload(c *gin.Context) {
 		file,
 		false,
 		"",
-		fileHeader.Header.Get("Content-Type"),
-		swift.Headers{},
+		"",
+		nil,
 	)
 	if err != nil {
 		fmt.Println(err)
