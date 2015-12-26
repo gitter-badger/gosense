@@ -256,6 +256,7 @@ func (ac *AdminController) Files(c *gin.Context) {
 	c.HTML(http.StatusOK, "admin-files.html", gin.H{})
 }
 func (ac *AdminController) FileUpload(c *gin.Context) {
+
 	conn := swift.Connection{
 		UserName: Config.ObjectStorage.ApiUser,
 		ApiKey:   Config.ObjectStorage.ApiKey,
@@ -270,29 +271,36 @@ func (ac *AdminController) FileUpload(c *gin.Context) {
 	}
 	containers, err := conn.ContainerNames(nil)
 	fmt.Println(containers)
-	file, fileHeader, err := c.Request.FormFile("uploadfile")
-	if err != nil {
-		fmt.Println(err)
+	return
+	/*
+
+		file, fileHeader, err := c.Request.FormFile("uploadfile")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		loc, err := time.LoadLocation("Asia/Shanghai")
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		prefix := time.Now().In(loc).Format("2006/01/02")
+
+		fmt.Println(Config.ObjectStorage)
 		return
-	}
-	loc, err := time.LoadLocation("Asia/Shanghai")
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	prefix := time.Now().In(loc).Format("2006/01/02")
-	_, err = conn.ObjectPut(
-		Config.ObjectStorage.ApiContainer,
-		fmt.Sprintf("%s/%s", prefix, fileHeader.Filename),
-		file,
-		false,
-		"",
-		"",
-		nil,
-	)
-	if err != nil {
-		fmt.Println(err)
-	}
+		_, err = conn.ObjectPut(
+			Config.ObjectStorage.ApiContainer,
+			fmt.Sprintf("%s/%s", prefix, fileHeader.Filename),
+			file,
+			false,
+			"",
+			"",
+			nil,
+		)
+		if err != nil {
+			fmt.Println(err)
+		}
+	*/
 	(&umsg{"Upload success", "/"}).ShowMessage(c)
 }
 
