@@ -15,6 +15,8 @@ import (
 	"runtime/debug"
 	"strconv"
 	"time"
+	"io"
+	"io/ioutil"
 )
 
 // AdminLoginForm is the login form for Admin
@@ -296,14 +298,11 @@ func (ac *AdminController) FileUpload(c *gin.Context) {
 		return
 	}
 	prefix := time.Now().In(loc).Format("2006/01/02")
-	_, err = conn.ObjectPut(
+	_, err = conn.ObjectPutBytes(
 		Config.ObjectStorage.ApiContainer,
 		fmt.Sprintf("%s/%s", prefix, fileHeader.Filename),
-		file,
-		false,
+		ioutil.ReadAll(file),
 		"",
-		"",
-		nil,
 	)
 	if err != nil {
 		fmt.Println(err)
