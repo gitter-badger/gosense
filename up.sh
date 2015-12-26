@@ -17,9 +17,14 @@ if [ $(docker ps -a | grep gs_db | wc -l) -le 0 ]; then
             sleep 2
         fi
     done
+ fi
+
+# If database not found, then we import database 
+if [ $(docker exec gs_db mysql -u root -h 127.0.0.1 -e "use gosense;" | grep -i unkown  | wc -l) -le 0 ]; then
     docker cp sql/bak.sql gs_db:/root/
     docker exec gs_db sh -c "mysql < /root/bak.sql"
 fi
+
 if [ $(docker ps -a | grep gosense | wc -l) -ge 1 ]; then
     docker rm -vf gosense
 fi
