@@ -12,9 +12,9 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"runtime/debug"
 	"strconv"
 	"time"
-	"runtime/debug"
 )
 
 // AdminLoginForm is the login form for Admin
@@ -269,45 +269,51 @@ func (ac *AdminController) FileUpload(c *gin.Context) {
 	if err != nil {
 		fmt.Println(err)
 		debug.PrintStack()
+		(&msg{"Uploading error"}).ShowMessage(c)
 		return
 	}
 	containers, err := conn.ContainerNames(nil)
 	if err != nil {
 		fmt.Println(err)
 		debug.PrintStack()
+		(&msg{"Uploading error"}).ShowMessage(c)
 		return
 	}
 	fmt.Println(containers)
-	return
-	/*
 
-		file, fileHeader, err := c.Request.FormFile("uploadfile")
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		loc, err := time.LoadLocation("Asia/Shanghai")
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-		prefix := time.Now().In(loc).Format("2006/01/02")
-
-		fmt.Println(Config.ObjectStorage)
+	file, fileHeader, err := c.Request.FormFile("uploadfile")
+	if err != nil {
+		fmt.Println(err)
+		debug.PrintStack()
+		(&msg{"Uploading error"}).ShowMessage(c)
 		return
-		_, err = conn.ObjectPut(
-			Config.ObjectStorage.ApiContainer,
-			fmt.Sprintf("%s/%s", prefix, fileHeader.Filename),
-			file,
-			false,
-			"",
-			"",
-			nil,
-		)
-		if err != nil {
-			fmt.Println(err)
-		}
-	*/
+	}
+	loc, err := time.LoadLocation("Asia/Shanghai")
+	if err != nil {
+		fmt.Println(err)
+		debug.PrintStack()
+		(&msg{"Uploading error"}).ShowMessage(c)
+		return
+	}
+	prefix := time.Now().In(loc).Format("2006/01/02")
+
+	fmt.Println(Config.ObjectStorage)
+	return
+	_, err = conn.ObjectPut(
+		Config.ObjectStorage.ApiContainer,
+		fmt.Sprintf("%s/%s", prefix, fileHeader.Filename),
+		file,
+		false,
+		"",
+		"",
+		nil,
+	)
+	if err != nil {
+		fmt.Println(err)
+		debug.PrintStack()
+		(&msg{"Uploading error"}).ShowMessage(c)
+		return
+	}
 	(&umsg{"Upload success", "/"}).ShowMessage(c)
 }
 
