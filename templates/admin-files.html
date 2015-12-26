@@ -8,8 +8,9 @@
     <input type="submit" value="upload" />
 </form>
 <div>
+    {{ $cdnurl := .cdnurl }}
     {{range $o := .objects }}
-    <a href="{{.cdnurl}}{{$o.Name}}">{{.cdnurl}}{{$o.Name}}</a>
+    <a href="{{$cdnurl}}{{$o.Name}}">{{$cdnurl}}{{$o.Name}}</a>
     {{end}}
 </div>
 </body>
