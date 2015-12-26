@@ -7,5 +7,10 @@
     <input type="file" name="uploadfile" />
     <input type="submit" value="upload" />
 </form>
+<div>
+    {{range $o := .objects }}
+    <a href="{{.cdnurl}}{{$o.Name}}">{{.cdnurl}}{{$o.Name}}</a>
+    {{end}}
+</div>
 </body>
 </html>

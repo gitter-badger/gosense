@@ -82,6 +82,7 @@ type appConfig struct {
 		ApiTenant    string
 		ApiRegion    string
 		ApiContainer string
+		ApiCdnUrl    string
 	}
 }
 

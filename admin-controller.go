@@ -271,8 +271,14 @@ func (ac *AdminController) Files(c *gin.Context) {
 		return
 	}
 	objects, err := conn.ObjectsAll(Config.ObjectStorage.ApiContainer, &swift.ObjectsOpts{Limit: 100})
-	fmt.Println("Found all the objects", objects, err)
-	c.HTML(http.StatusOK, "admin-files.html", gin.H{})
+	if err != nil {
+		fmt.Println(err)
+		debug.PrintStack()
+	}
+	c.HTML(http.StatusOK, "admin-files.html", gin.H{
+		"objects": objects,
+		"cdnurl":Config.ObjectStorage.ApiCdnUrl,
+	})
 }
 func (ac *AdminController) FileUpload(c *gin.Context) {
 	session := sessions.Default(c)
