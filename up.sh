@@ -20,12 +20,12 @@ if [ $(docker ps -a | grep gs_db | wc -l) -le 0 ]; then
  fi
 
 # If database not found, then we import database 
-if [ $(docker exec gs_db mysql -u root -h 127.0.0.1 -e "use gosense;" | grep -i unkown  | wc -l) -le 0 ]; then
+if [ $(docker exec gs_db mysql -u root -h 127.0.0.1 -e "use gosense;" | grep -i unkown  | wc -l) -eq 1 ]; then
     docker cp sql/bak.sql gs_db:/root/
     docker exec gs_db sh -c "mysql < /root/bak.sql"
 fi
 
-if [ $(docker ps -a | grep gosense | wc -l) -ge 1 ]; then
+if [ $(docker ps -a | grep gosense | wc -l) -eq 1 ]; then
     docker rm -vf gosense
 fi
 docker run --restart=always --net=gosense-network -d -p 8080:8080  -v $(pwd):/www --name gosense debian  sh -c "cd /www && /www/gosense"
