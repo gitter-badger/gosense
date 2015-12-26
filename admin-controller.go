@@ -10,12 +10,12 @@ import (
 	"github.com/ncw/swift"
 	_ "github.com/netroby/mysql"
 	"html/template"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"runtime/debug"
 	"strconv"
 	"time"
-	"io/ioutil"
 )
 
 // AdminLoginForm is the login form for Admin
@@ -277,7 +277,7 @@ func (ac *AdminController) Files(c *gin.Context) {
 	}
 	c.HTML(http.StatusOK, "admin-files.html", gin.H{
 		"objects": objects,
-		"cdnurl":Config.ObjectStorage.ApiCdnUrl,
+		"cdnurl":  Config.ObjectStorage.ApiCdnUrl,
 	})
 }
 func (ac *AdminController) FileUpload(c *gin.Context) {
