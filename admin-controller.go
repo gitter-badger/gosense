@@ -281,7 +281,7 @@ func (ac *AdminController) FileUpload(c *gin.Context) {
 		return
 	}
 	prefix := time.Now().In(loc).Format("2006/01/02")
-	err = conn.ObjectPut(
+	_, err = conn.ObjectPut(
 		Config.ObjectStorage.ApiContainer,
 		fmt.Sprintf("%s/%s", prefix, fileHeader.Filename),
 		file,
