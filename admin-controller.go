@@ -15,7 +15,6 @@ import (
 	"runtime/debug"
 	"strconv"
 	"time"
-	"io"
 	"io/ioutil"
 )
 
@@ -256,10 +255,32 @@ func (ac *AdminController) Files(c *gin.Context) {
 		(&umsg{"You have no permission", "/"}).ShowMessage(c)
 		return
 	}
+
+	conn := swift.Connection{
+		UserName: Config.ObjectStorage.ApiUser,
+		ApiKey:   Config.ObjectStorage.ApiKey,
+		AuthUrl:  Config.ObjectStorage.ApiAuth,
+		Tenant:   Config.ObjectStorage.ApiTenant,
+		Region:   Config.ObjectStorage.ApiRegion,
+	}
+	err := conn.Authenticate()
+	if err != nil {
+		fmt.Println(err)
+		debug.PrintStack()
+		(&msg{"Uploading error"}).ShowMessage(c)
+		return
+	}
+	objects, err := conn.ObjectsAll(Config.ObjectStorage.ApiContainer, &swift.ObjectsOpts{Limit: 100})
+	fmt.Println("Found all the objects", objects, err)
 	c.HTML(http.StatusOK, "admin-files.html", gin.H{})
 }
 func (ac *AdminController) FileUpload(c *gin.Context) {
-
+	session := sessions.Default(c)
+	username := session.Get("username")
+	if username == nil {
+		(&umsg{"You have no permission", "/"}).ShowMessage(c)
+		return
+	}
 	conn := swift.Connection{
 		UserName: Config.ObjectStorage.ApiUser,
 		ApiKey:   Config.ObjectStorage.ApiKey,
@@ -298,10 +319,11 @@ func (ac *AdminController) FileUpload(c *gin.Context) {
 		return
 	}
 	prefix := time.Now().In(loc).Format("2006/01/02")
+	body, err := ioutil.ReadAll(file)
 	_, err = conn.ObjectPutBytes(
 		Config.ObjectStorage.ApiContainer,
 		fmt.Sprintf("%s/%s", prefix, fileHeader.Filename),
-		ioutil.ReadAll(file),
+		body,
 		"",
 	)
 	if err != nil {
