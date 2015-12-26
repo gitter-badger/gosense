@@ -75,6 +75,13 @@ type appConfig struct {
 	Admin_password   string
 	Site_name        string
 	Site_description string
+	ObjectStorage    struct {
+		ApiUser   string
+		ApiKey    string
+		ApiAuth   string
+		ApiTenant string
+		ApiRegion string
+	}
 }
 
 func GetConfig() *appConfig {
