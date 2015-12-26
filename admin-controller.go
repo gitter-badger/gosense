@@ -267,8 +267,6 @@ func (ac *AdminController) Files(c *gin.Context) {
 	if err != nil {
 		fmt.Println(err)
 		debug.PrintStack()
-		(&msg{"Uploading error"}).ShowMessage(c)
-		return
 	}
 	objects, err := conn.ObjectsAll(Config.ObjectStorage.ApiContainer, &swift.ObjectsOpts{Limit: 100})
 	if err != nil {
