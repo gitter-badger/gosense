@@ -270,6 +270,10 @@ func (ac *AdminController) FileUpload(c *gin.Context) {
 		return
 	}
 	containers, err := conn.ContainerNames(nil)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	fmt.Println(containers)
 	return
 	/*
