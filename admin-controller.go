@@ -324,9 +324,10 @@ func (ac *AdminController) FileUpload(c *gin.Context) {
 	prefix := time.Now().In(loc).Format("2006/01/02")
 	body, err := ioutil.ReadAll(file)
 	params := &s3.PutObjectInput{
-		Bucket: aws.String(Config.ObjectStorage.Aws_bucket),
-		Key:    aws.String(fmt.Sprintf("%s/%s", prefix, fileHeader.Filename)),
-		Body:   bytes.NewReader(body),
+		Bucket:      aws.String(Config.ObjectStorage.Aws_bucket),
+		Key:         aws.String(fmt.Sprintf("%s/%s", prefix, fileHeader.Filename)),
+		Body:        bytes.NewReader(body),
+		ContentType: aws.String(fileHeader.Header.Get("content-type")),
 	}
 	_, err = s3o.PutObject(params)
 	if err != nil {
