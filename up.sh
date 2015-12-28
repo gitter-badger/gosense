@@ -32,5 +32,5 @@ fi
 if [ $(docker ps -a | grep gosense | wc -l) -eq 1 ]; then
     docker rm -vf gosense
 fi
-docker run --restart=always --net=gosense-network -d -p 8080:8080  -v $(pwd):/www --name gosense golang  sh -c "cd /www && /www/gosense"
-
+docker run --dns=10.0.18.87 --dns=208.67.222.222 --dns=208.67.220.220 --restart=always --net=gosense-network -d -p 8080:8080  -v $(pwd):/www --name gosense golang  sh -c "cd /www && /www/gosense"
+./catlog.sh -f

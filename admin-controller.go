@@ -20,6 +20,7 @@ import (
 	awsSession "github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"runtime/debug"
+	"strings"
 )
 
 // AdminLoginForm is the login form for Admin
@@ -259,6 +260,7 @@ func (ac *AdminController) Files(c *gin.Context) {
 		(&umsg{"You have no permission", "/"}).ShowMessage(c)
 		return
 	}
+	objectLists := make([]string, 0)
 	s := awsSession.New(&aws.Config{
 		Region: aws.String(Config.ObjectStorage.Aws_region),
 		Credentials: credentials.NewStaticCredentials(
@@ -277,11 +279,14 @@ func (ac *AdminController) Files(c *gin.Context) {
 		debug.PrintStack()
 	} else {
 		for _, key := range resp.Contents {
-			fmt.Println(*key.Key)
+			if strings.Contains(*key.Key, ".") {
+				objectLists = append(objectLists, *key.Key)
+				fmt.Println(*key.Key)
+			}
 		}
 	}
 	c.HTML(http.StatusOK, "admin-files.html", gin.H{
-		"objects": nil,
+		"objects": objectLists,
 		"cdnurl":  Config.ObjectStorage.Cdn_url,
 	})
 }

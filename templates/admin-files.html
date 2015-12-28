@@ -10,7 +10,7 @@
 <div>
     {{ $cdnurl := .cdnurl }}
     {{range $o := .objects }}
-    <a href="{{$cdnurl}}{{$o.Name}}"><span style="margin:24px">{{$cdnurl}}{{$o.Name}}</span></a>
+    <a href="{{$cdnurl}}{{$o}}"><span style="margin:24px">{{$cdnurl}}{{$o}}</span></a>
     {{end}}
 </div>
 </body>

@@ -79,7 +79,7 @@ type appConfig struct {
 		Aws_access_key_id     string
 		Aws_secret_access_key string
 		Aws_region            string
-		Aws_bucket	      string
+		Aws_bucket            string
 		Cdn_url               string
 	}
 }
