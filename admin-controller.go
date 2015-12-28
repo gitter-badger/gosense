@@ -262,9 +262,9 @@ func (ac *AdminController) Files(c *gin.Context) {
 	s := awsSession.New(&aws.Config{
 		Region: aws.String(Config.ObjectStorage.Aws_region),
 		Credentials: credentials.NewStaticCredentials(
-			"s3user",
 			Config.ObjectStorage.Aws_access_key_id,
 			Config.ObjectStorage.Aws_secret_access_key,
+			nil,
 		),
 	})
 	s3o := s3.New(s)
