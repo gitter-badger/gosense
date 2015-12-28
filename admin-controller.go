@@ -264,7 +264,7 @@ func (ac *AdminController) Files(c *gin.Context) {
 		Credentials: credentials.NewStaticCredentials(
 			Config.ObjectStorage.Aws_access_key_id,
 			Config.ObjectStorage.Aws_secret_access_key,
-			nil,
+			"",
 		),
 	})
 	s3o := s3.New(s)
