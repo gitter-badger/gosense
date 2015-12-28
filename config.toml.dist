@@ -10,4 +10,6 @@ site_description = "Linux, opensource, golang"
 [object_storage]
 aws_access_key_id = "******"
 aws_secret_access_key = "******"
+aws_region = "us-east-1"
+aws_bucket = "www.domain.com"
 cdn_url = "http://www.domain.com"

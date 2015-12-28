@@ -76,13 +76,11 @@ type appConfig struct {
 	Site_name        string
 	Site_description string
 	ObjectStorage    struct {
-		ApiUser      string
-		ApiKey       string
-		ApiAuth      string
-		ApiTenant    string
-		ApiRegion    string
-		ApiContainer string
-		ApiCdnUrl    string
+		Aws_access_key_id     string
+		Aws_secret_access_key string
+		Aws_region            string
+		Aws_bucket	      string
+		Cdn_url               string
 	}
 }
 

@@ -16,6 +16,11 @@ import (
 	"runtime/debug"
 	"strconv"
 	"time"
+
+	"github.com/aws/aws-sdk-go/aws"
+	awsSession "github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/aws/credentials"
+	"github.com/aws/aws-sdk-go/service/s3"
 )
 
 // AdminLoginForm is the login form for Admin
@@ -255,27 +260,25 @@ func (ac *AdminController) Files(c *gin.Context) {
 		(&umsg{"You have no permission", "/"}).ShowMessage(c)
 		return
 	}
-
-	conn := swift.Connection{
-		UserName: Config.ObjectStorage.ApiUser,
-		ApiKey:   Config.ObjectStorage.ApiKey,
-		AuthUrl:  Config.ObjectStorage.ApiAuth,
-		Tenant:   Config.ObjectStorage.ApiTenant,
-		Region:   Config.ObjectStorage.ApiRegion,
+	s := awsSession.New(&aws.Config{
+		Region: aws.String(Config.ObjectStorage.Aws_region),
+		Credentials: credentials.NewStaticCredentials(
+			"s3user",
+			Config.ObjectStorage.Aws_access_key_id,
+			Config.ObjectStorage.Aws_secret_access_key,
+		),
+	})
+	s3o := s3.New(s)
+	params := &s3.ListObjectsInput{
+		Bucket: aws.String(Config.ObjectStorage.Aws_bucket),
 	}
-	err := conn.Authenticate()
-	if err != nil {
-		fmt.Println(err)
-		debug.PrintStack()
-	}
-	objects, err := conn.ObjectsAll(Config.ObjectStorage.ApiContainer, &swift.ObjectsOpts{Limit: 100})
-	if err != nil {
-		fmt.Println(err)
-		debug.PrintStack()
+	resp, _ := s3o.ListObjects(params)
+	for _, key := range resp.Contents {
+		fmt.Println(*key.Key)
 	}
 	c.HTML(http.StatusOK, "admin-files.html", gin.H{
-		"objects": objects,
-		"cdnurl":  Config.ObjectStorage.ApiCdnUrl,
+		"objects": nil,
+		"cdnurl":  Config.ObjectStorage.Cdn_url,
 	})
 }
 func (ac *AdminController) FileUpload(c *gin.Context) {
@@ -285,6 +288,7 @@ func (ac *AdminController) FileUpload(c *gin.Context) {
 		(&umsg{"You have no permission", "/"}).ShowMessage(c)
 		return
 	}
+	/*
 	conn := swift.Connection{
 		UserName: Config.ObjectStorage.ApiUser,
 		ApiKey:   Config.ObjectStorage.ApiKey,
@@ -336,6 +340,7 @@ func (ac *AdminController) FileUpload(c *gin.Context) {
 		(&msg{"Uploading error"}).ShowMessage(c)
 		return
 	}
+	*/
 	(&umsg{"Upload success", "/"}).ShowMessage(c)
 }
 
