@@ -14,3 +14,4 @@ import:
 - package: github.com/naoina/toml
 - package: github.com/netroby/feeds
 - package: github.com/netroby/mysql
+- package: github.com/ncw/swift
