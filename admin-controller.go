@@ -336,7 +336,7 @@ func (ac *AdminController) FileUpload(c *gin.Context) {
 		(&msg{"Uploading error"}).ShowMessage(c)
 		return
 	}
-	(&umsg{"Upload success", "/"}).ShowMessage(c)
+	(&umsg{"Upload success", "/admin/files"}).ShowMessage(c)
 }
 
 func (ac *AdminController) LoginCtr(c *gin.Context) {
