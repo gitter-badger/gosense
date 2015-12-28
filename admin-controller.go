@@ -12,14 +12,14 @@ import (
 	//"io/ioutil"
 	"log"
 	"net/http"
-	//"runtime/debug"
 	"strconv"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
-	awsSession "github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/aws/credentials"
+	awsSession "github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
+	"runtime/debug"
 )
 
 // AdminLoginForm is the login form for Admin
@@ -271,9 +271,14 @@ func (ac *AdminController) Files(c *gin.Context) {
 	params := &s3.ListObjectsInput{
 		Bucket: aws.String(Config.ObjectStorage.Aws_bucket),
 	}
-	resp, _ := s3o.ListObjects(params)
-	for _, key := range resp.Contents {
-		fmt.Println(*key.Key)
+	resp, err := s3o.ListObjects(params)
+	if err != nil {
+		fmt.Println(err)
+		debug.PrintStack()
+	} else {
+		for _, key := range resp.Contents {
+			fmt.Println(*key.Key)
+		}
 	}
 	c.HTML(http.StatusOK, "admin-files.html", gin.H{
 		"objects": nil,
@@ -288,57 +293,57 @@ func (ac *AdminController) FileUpload(c *gin.Context) {
 		return
 	}
 	/*
-	conn := swift.Connection{
-		UserName: Config.ObjectStorage.ApiUser,
-		ApiKey:   Config.ObjectStorage.ApiKey,
-		AuthUrl:  Config.ObjectStorage.ApiAuth,
-		Tenant:   Config.ObjectStorage.ApiTenant,
-		Region:   Config.ObjectStorage.ApiRegion,
-	}
-	err := conn.Authenticate()
-	if err != nil {
-		fmt.Println(err)
-		debug.PrintStack()
-		(&msg{"Uploading error"}).ShowMessage(c)
-		return
-	}
-	containers, err := conn.ContainerNames(nil)
-	if err != nil {
-		fmt.Println(err)
-		debug.PrintStack()
-		(&msg{"Uploading error"}).ShowMessage(c)
-		return
-	}
-	fmt.Println(containers)
+		conn := swift.Connection{
+			UserName: Config.ObjectStorage.ApiUser,
+			ApiKey:   Config.ObjectStorage.ApiKey,
+			AuthUrl:  Config.ObjectStorage.ApiAuth,
+			Tenant:   Config.ObjectStorage.ApiTenant,
+			Region:   Config.ObjectStorage.ApiRegion,
+		}
+		err := conn.Authenticate()
+		if err != nil {
+			fmt.Println(err)
+			debug.PrintStack()
+			(&msg{"Uploading error"}).ShowMessage(c)
+			return
+		}
+		containers, err := conn.ContainerNames(nil)
+		if err != nil {
+			fmt.Println(err)
+			debug.PrintStack()
+			(&msg{"Uploading error"}).ShowMessage(c)
+			return
+		}
+		fmt.Println(containers)
 
-	file, fileHeader, err := c.Request.FormFile("uploadfile")
-	if err != nil {
-		fmt.Println(err)
-		debug.PrintStack()
-		(&msg{"Uploading error"}).ShowMessage(c)
-		return
-	}
-	loc, err := time.LoadLocation("Asia/Shanghai")
-	if err != nil {
-		fmt.Println(err)
-		debug.PrintStack()
-		(&msg{"Uploading error"}).ShowMessage(c)
-		return
-	}
-	prefix := time.Now().In(loc).Format("2006/01/02")
-	body, err := ioutil.ReadAll(file)
-	err = conn.ObjectPutBytes(
-		Config.ObjectStorage.ApiContainer,
-		fmt.Sprintf("%s/%s", prefix, fileHeader.Filename),
-		body,
-		"",
-	)
-	if err != nil {
-		fmt.Println(err)
-		debug.PrintStack()
-		(&msg{"Uploading error"}).ShowMessage(c)
-		return
-	}
+		file, fileHeader, err := c.Request.FormFile("uploadfile")
+		if err != nil {
+			fmt.Println(err)
+			debug.PrintStack()
+			(&msg{"Uploading error"}).ShowMessage(c)
+			return
+		}
+		loc, err := time.LoadLocation("Asia/Shanghai")
+		if err != nil {
+			fmt.Println(err)
+			debug.PrintStack()
+			(&msg{"Uploading error"}).ShowMessage(c)
+			return
+		}
+		prefix := time.Now().In(loc).Format("2006/01/02")
+		body, err := ioutil.ReadAll(file)
+		err = conn.ObjectPutBytes(
+			Config.ObjectStorage.ApiContainer,
+			fmt.Sprintf("%s/%s", prefix, fileHeader.Filename),
+			body,
+			"",
+		)
+		if err != nil {
+			fmt.Println(err)
+			debug.PrintStack()
+			(&msg{"Uploading error"}).ShowMessage(c)
+			return
+		}
 	*/
 	(&umsg{"Upload success", "/"}).ShowMessage(c)
 }
