@@ -1,28 +1,26 @@
 package main
 
 import (
+	"bytes"
 	"database/sql"
 	"fmt"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/credentials"
+	awsSession "github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/golang/groupcache/lru"
 	_ "github.com/netroby/mysql"
 	"html/template"
-	//"io/ioutil"
+	"io/ioutil"
 	"log"
 	"net/http"
-	"strconv"
-	"time"
-
-	"bytes"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
-	awsSession "github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/s3"
-	"io/ioutil"
 	"runtime/debug"
+	"strconv"
 	"strings"
+	"time"
 )
 
 // AdminLoginForm is the login form for Admin
