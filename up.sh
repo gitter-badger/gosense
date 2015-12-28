@@ -1,12 +1,13 @@
 #!/bin/bash
 set -ex
-if [ ! -f config.toml ]; then
+DNSSERVERS=" --dns=208.67.222.222 --dns=208.67.220.220 --dns=8.8.8.8 --dns=8.8.4.4 "
+ if [ ! -f config.toml ]; then
     cp config.toml.dist config.toml
 fi
 if [ $(docker network ls | grep gosense-network | wc -l ) -eq 0 ]; then
     docker network create -d bridge gosense-network
 fi
-docker run --rm --name go-build -v $HOME/go:/go -v $(pwd):/www golang sh -c "cd /www ;go get -v ; go build -o /www/gosense "
+docker run ${DNSSERVERS} --rm --name go-build -v $HOME/go:/go -v $(pwd):/www golang sh -c "cd /www ;go get -v ; go build -o /www/gosense "
 if [ $(docker ps -a | grep gs_db | wc -l) -le 0 ]; then
     docker run --restart=always --net=gosense-network -d --name gs_db  netroby/docker-mysql
     while true; do
@@ -32,5 +33,5 @@ fi
 if [ $(docker ps -a | grep gosense | wc -l) -eq 1 ]; then
     docker rm -vf gosense
 fi
-docker run --dns=10.0.18.87 --dns=208.67.222.222 --dns=208.67.220.220 --restart=always --net=gosense-network -d -p 8080:8080  -v $(pwd):/www --name gosense golang  sh -c "cd /www && /www/gosense"
+docker run ${DNSSERVERS}  --restart=always --net=gosense-network -d -p 8080:8080  -v $(pwd):/www --name gosense golang  sh -c "cd /www && /www/gosense"
 ./catlog.sh -f

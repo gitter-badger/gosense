@@ -15,10 +15,12 @@ import (
 	"strconv"
 	"time"
 
+	"bytes"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	awsSession "github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
+	"io/ioutil"
 	"runtime/debug"
 	"strings"
 )
@@ -297,59 +299,44 @@ func (ac *AdminController) FileUpload(c *gin.Context) {
 		(&umsg{"You have no permission", "/"}).ShowMessage(c)
 		return
 	}
-	/*
-		conn := swift.Connection{
-			UserName: Config.ObjectStorage.ApiUser,
-			ApiKey:   Config.ObjectStorage.ApiKey,
-			AuthUrl:  Config.ObjectStorage.ApiAuth,
-			Tenant:   Config.ObjectStorage.ApiTenant,
-			Region:   Config.ObjectStorage.ApiRegion,
-		}
-		err := conn.Authenticate()
-		if err != nil {
-			fmt.Println(err)
-			debug.PrintStack()
-			(&msg{"Uploading error"}).ShowMessage(c)
-			return
-		}
-		containers, err := conn.ContainerNames(nil)
-		if err != nil {
-			fmt.Println(err)
-			debug.PrintStack()
-			(&msg{"Uploading error"}).ShowMessage(c)
-			return
-		}
-		fmt.Println(containers)
-
-		file, fileHeader, err := c.Request.FormFile("uploadfile")
-		if err != nil {
-			fmt.Println(err)
-			debug.PrintStack()
-			(&msg{"Uploading error"}).ShowMessage(c)
-			return
-		}
-		loc, err := time.LoadLocation("Asia/Shanghai")
-		if err != nil {
-			fmt.Println(err)
-			debug.PrintStack()
-			(&msg{"Uploading error"}).ShowMessage(c)
-			return
-		}
-		prefix := time.Now().In(loc).Format("2006/01/02")
-		body, err := ioutil.ReadAll(file)
-		err = conn.ObjectPutBytes(
-			Config.ObjectStorage.ApiContainer,
-			fmt.Sprintf("%s/%s", prefix, fileHeader.Filename),
-			body,
+	s := awsSession.New(&aws.Config{
+		Region: aws.String(Config.ObjectStorage.Aws_region),
+		Credentials: credentials.NewStaticCredentials(
+			Config.ObjectStorage.Aws_access_key_id,
+			Config.ObjectStorage.Aws_secret_access_key,
 			"",
-		)
-		if err != nil {
-			fmt.Println(err)
-			debug.PrintStack()
-			(&msg{"Uploading error"}).ShowMessage(c)
-			return
-		}
-	*/
+		),
+	})
+	s3o := s3.New(s)
+
+	file, fileHeader, err := c.Request.FormFile("uploadfile")
+	if err != nil {
+		fmt.Println(err)
+		debug.PrintStack()
+		(&msg{"Uploading error"}).ShowMessage(c)
+		return
+	}
+	loc, err := time.LoadLocation("Asia/Shanghai")
+	if err != nil {
+		fmt.Println(err)
+		debug.PrintStack()
+		(&msg{"Uploading error"}).ShowMessage(c)
+		return
+	}
+	prefix := time.Now().In(loc).Format("2006/01/02")
+	body, err := ioutil.ReadAll(file)
+	params := &s3.PutObjectInput{
+		Bucket: aws.String(Config.ObjectStorage.Aws_bucket),
+		Key:    aws.String(fmt.Sprintf("%s/%s", prefix, fileHeader.Filename)),
+		Body:   bytes.NewReader(body),
+	}
+	_, err = s3o.PutObject(params)
+	if err != nil {
+		fmt.Println(err)
+		debug.PrintStack()
+		(&msg{"Uploading error"}).ShowMessage(c)
+		return
+	}
 	(&umsg{"Upload success", "/"}).ShowMessage(c)
 }
 
