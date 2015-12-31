@@ -1,7 +1,14 @@
 # GoSense
 
+Happy New Year! 2016.
 A blog web app powered by golang, see demo : https://www.netroby.com
 
+## Feature
+
+
+1. AWS S3 file upload storage
+2. RSS output
+3. Powered by golang
 
 ## Install
 
