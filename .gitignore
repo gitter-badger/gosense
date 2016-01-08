@@ -6,3 +6,5 @@ cmd/setup/setup
 vendor/
 config.toml
 *.lock
+bindata_assetfs.go
+

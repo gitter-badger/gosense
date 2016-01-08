@@ -6,6 +6,7 @@ import:
   - aws/credentials
   - aws/session
   - service/s3
+- package: github.com/elazarl/go-bindata-assetfs
 - package: github.com/fvbock/endless
 - package: github.com/gin-gonic/contrib
   subpackages:

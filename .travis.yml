@@ -6,6 +6,12 @@ go:
 install:
     - export GO15VENDOREXPERIMENT=1
     - go get github.com/masterminds/glide
+    - go get github.com/jteeuwen/go-bindata/...
+    - go get github.com/elazarl/go-bindata-assetfs/...
+    - cd asset
+    - go-binddata-assetfs ./...
+    - mv bindata_assetfs.go ../
+    - cd ..
 
 script:
     - glide install

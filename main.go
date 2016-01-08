@@ -22,7 +22,7 @@ func main() {
 	Cache = lru.New(CacheSize)
 
 	r := gin.Default()
-	r.Static("/assets", "assets")
+	r.StaticFS("/assets", assetFS())
 	store := sessions.NewCookieStore([]byte("gssecret"))
 	r.Use(sessions.Sessions("mysession", store))
 	r.LoadHTMLGlob("templates/*.html")
