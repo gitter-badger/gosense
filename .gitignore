@@ -7,4 +7,4 @@ vendor/
 config.toml
 *.lock
 bindata_assetfs.go
-
+template.go
