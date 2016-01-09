@@ -4,7 +4,8 @@ if [ ! -f config.toml ]; then
     cp config.toml.dist config.toml
 fi
 if [ ! -z $1 ]; then
-    docker run ${DNSSERVERS} --rm --name go-build -v $HOME/go:/go -v $(pwd):/www golang sh -c "cd /www ;go get github.com/jteeuwen/go-bindata/...;go get github.com/elazarl/go-bindata-assetfs/...;go-bindata-assetfs assets/... templates/...;go get -v ; go build -o /www/gosense "
+DNSSERVERS=" --dns=208.67.222.222 --dns=208.67.220.220 --dns=8.8.8.8 --dns=8.8.4.4 "
+docker run ${DNSSERVERS} --rm --name go-build -v $HOME/go:/go -v $(pwd):/www golang /bin/bash /www/build.sh
 fi
 PIDGS=$(docker exec gosense pidof gosense)
 echo "Pid of gosense $PIDGS"
