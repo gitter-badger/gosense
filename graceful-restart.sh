@@ -5,7 +5,7 @@ if [ ! -f config.toml ]; then
 fi
 if [ ! -z $1 ]; then
 DNSSERVERS=" --dns=208.67.222.222 --dns=208.67.220.220 --dns=8.8.8.8 --dns=8.8.4.4 "
-docker run ${DNSSERVERS} --rm --name go-build -v $HOME/go:/go -v $(pwd):/www golang /bin/bash /www/build.sh
+docker run ${DNSSERVERS} --rm --name go-build -v $(pwd):/www golang /bin/bash /www/build.sh
 fi
 PIDGS=$(docker exec gosense pidof gosense)
 echo "Pid of gosense $PIDGS"

@@ -7,7 +7,7 @@ fi
 if [ $(docker network ls | grep gosense-network | wc -l ) -eq 0 ]; then
     docker network create -d bridge gosense-network
 fi
-docker run ${DNSSERVERS} --rm --name go-build -v $HOME/go:/go -v $(pwd):/www golang /bin/bash /www/build.sh
+docker run ${DNSSERVERS} --rm --name go-build -v $(pwd):/www golang /bin/bash /www/build.sh
 if [ $(docker ps -a | grep gs_db | wc -l) -le 0 ]; then
     docker run --restart=always --net=gosense-network -d --name gs_db  netroby/docker-mysql
     while true; do
