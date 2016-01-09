@@ -34,8 +34,8 @@ type VBlogItem struct {
 }
 
 /*
-	Show message with template
-*/
+* ShowMessage with template
+ */
 func (m *msg) ShowMessage(c *gin.Context) {
 	c.HTML(http.StatusOK, "message.html", gin.H{
 		"message": template.HTML(m.msg),
