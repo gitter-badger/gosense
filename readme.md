@@ -11,14 +11,7 @@ A blog web app powered by golang, see demo : https://www.netroby.com
 3. Powered by golang
 
 ## Install
-
-```
-go get github.com/tools/godep
-go get -u github.com/netroby/gosense
-godep go build
-./gosense # windows gosense.exe
-```
-Or you can install docker, then run docker container 
+you can install docker, then run docker container 
 
 ```
 # to install docker on your platform
