@@ -12,7 +12,8 @@ Using MySQL as database to storage data. Using Amazon S3 to handle file uploads.
 3. Powered by golang
 
 ## Install
-you can install docker, then run docker container 
+you can install docker, then run docker container. We using docker to build and running gosense.
+We tested gosense with golang 1.5.* , 1.6.*.
 
 ```
 # to install docker on your platform
