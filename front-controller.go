@@ -111,7 +111,10 @@ func (fc *FrontController) SearchCtr(c *gin.Context) {
 		return
 	}
 	orig_keyword := keyword
+	keyword = strings.Trim(keyword, "%20")
+	keyword = strings.TrimSpace(keyword)
 	keyword = strings.Replace(keyword, " ", "%", -1)
+	keyword = strings.Replace(keyword, "%20", "%", -1)
 
 	var blogList string
 	rpp := 20

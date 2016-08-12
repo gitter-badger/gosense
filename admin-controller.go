@@ -193,29 +193,29 @@ func (ac *AdminController) SaveBlogEditCtr(c *gin.Context) {
 	session := sessions.Default(c)
 	username := session.Get("username")
 	if username == nil {
-		(&umsg{"You have no permission", "/"}).ShowMessage(c)
+		(&umsg{"You have no permission", "javascript:history.go(-1)"}).ShowMessage(c)
 		return
 	}
 	var BI EditBlogItem
 	c.BindWith(&BI, binding.Form)
 	if BI.Aid == "" {
-		(&umsg{"Can not find the blog been edit", "/"}).ShowMessage(c)
+		(&umsg{"Can not find the blog been edit", "javascript:history.go(-1)"}).ShowMessage(c)
 		return
 	}
 	if BI.Title == "" {
-		(&umsg{"Title can not empty", "/"}).ShowMessage(c)
+		(&umsg{"Title can not empty", "javascript:history.go(-1)"}).ShowMessage(c)
 		return
 	}
 	if BI.Content == "" {
-		(&umsg{"Content can not empty", "/"}).ShowMessage(c)
+		(&umsg{"Content can not empty", "javascript:history.go(-1)"}).ShowMessage(c)
 		return
 	}
 	_, err := DB.Exec("update top_article set title=?, content=? where aid = ? limit 1", BI.Title, BI.Content, BI.Aid)
 	if err == nil {
 		Cache = lru.New(CacheSize)
-		(&umsg{"Success", "/"}).ShowMessage(c)
+		(&umsg{"Success", "/view/" + BI.Aid}).ShowMessage(c)
 	} else {
-		(&umsg{"Failed to save blog", "/"}).ShowMessage(c)
+		(&umsg{"Failed to save blog", "javascript:history.go(-1)"}).ShowMessage(c)
 	}
 
 }
