@@ -45,6 +45,8 @@ We using MIT License, so feel free to change anything as you want.
 
 ## Donate me please
 
+Your donate will help me improve the code quality. I need money to pay for food, water.
+
 ### Bitcoin donate
 
 ```
