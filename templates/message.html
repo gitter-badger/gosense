@@ -9,16 +9,19 @@
 <body>
 <div class="back-to-home"><a href="/">Home</a></div>
 <div class="clearfix"></div>
-<div class="message-container">
-    <p>{{ .message }}</p>
-
-    <p>{{if .url }}
-        <a href="{{ .url }}">Ok</a>
-        {{end}}
-    </p>
+<div class="container">
+    <div class="content">
+        <div class="txtcenter">
+            <p>{{ .message }}</p>
+            <p>{{ if .url }}
+                <a href="{{ .url }}">Ok</a>
+                {{ end }}
+            </p>
+        </div>
+    </div>
 </div>
 
-{{  template "donate.html" }}
+{{ template "donate.html" }}
 
 </body>
 </html>
