@@ -12,55 +12,21 @@ Using MySQL as database to storage data. Using Amazon S3 to handle file uploads.
 3. Powered by golang
 
 ## Install
-you can install docker, then run docker container. We using docker to build and running gosense.
-We tested gosense with golang 1.5.* , 1.6.*.
+you can install docker-engine and docker-compose, We using docker to build and running gosense.
+We tested gosense with golang 1.5.* , 1.6.*., 1.7.*
+
+if you installed docker-engine  and docker, please run 
 
 ```
-# to install docker on your platform
-# wget -qO- get.docker.com | sudo sh
-git clone https://github.com/netroby/gosense.git
-./up.sh
-```
-Make sure your docker verision 1.9.1+
-```
-$ docker version
-Client:
- Version:      1.9.1
- API version:  1.21
- Go version:   go1.4.2
- Git commit:   a34a1d5
- Built:        Fri Nov 20 13:20:08 UTC 2015
- OS/Arch:      linux/amd64
-
-Server:
- Version:      1.9.1
- API version:  1.21
- Go version:   go1.4.2
- Git commit:   a34a1d5
- Built:        Fri Nov 20 13:20:08 UTC 2015
- OS/Arch:      linux/amd64
-
+docker-compose up --build
 ```
 
 Once you docker up and running, you may access demo via http://127.0.0.1:8080
 To login, you need visit http://127.0.0.1:8080/admin/login  (The password will be found in config.toml file)
 To create blog , you can visit http://127.0.0.1:8080/admin/addblog
 
+Remember change 127.0.0.1 to your docker hosting machine real ip address.
 
-
-## Graceful restart 
-
-And if you want reload gosense, just  run following command
-
-```
-docker kill -s HUP gosense
-```
-Or may you want to rebuild binary and graceful reload ?
-
-```
-git pull --rebase
-./graceful-restart.sh
-```
 
 ## License
 
