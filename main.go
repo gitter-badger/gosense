@@ -132,6 +132,7 @@ func main() {
 		"message.html",
 		"search.html",
 		"view.html",
+		"donate.html",
 	}
 	var t *template.Template
 	for i := 0; i < len(tplsname); i++ {
