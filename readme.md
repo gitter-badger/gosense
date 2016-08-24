@@ -12,7 +12,16 @@ Using MySQL as database to storage data. Using Amazon S3 to handle file uploads.
 3. Powered by golang
 
 ## Install
-you can install docker-engine and docker-compose, We using docker to build and running gosense.
+
+
+First clone this repository to you pc/mac/laptop.
+
+```bash
+git clone https://github.com/netroby/gosense.git
+```
+Then rename config.toml.dist to config.toml, and change admin password and aws sdk key, secret
+
+And you must install docker-engine and docker-compose, We using docker to build and running gosense.
 We tested gosense with golang 1.5.* , 1.6.*., 1.7.*
 
 if you installed docker-engine  and docker, please run 
