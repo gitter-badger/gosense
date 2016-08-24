@@ -10,6 +10,8 @@ Using MySQL as database to storage data. Using Amazon S3 to handle file uploads.
 1. AWS S3 file upload storage
 2. RSS output
 3. Powered by golang
+4. Builtin groupcache, amazing fast
+5. Less cpu, memory usage than (wordpress etc)
 
 ## Install
 
@@ -39,7 +41,7 @@ Remember change 127.0.0.1 to your docker hosting machine real ip address.
 
 ## License
 
-MIT License
+We using MIT License, so feel free to change anything as you want.
 
 ## Donate me please
 
