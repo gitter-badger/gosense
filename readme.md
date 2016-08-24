@@ -60,6 +60,10 @@ Your donate will help me improve the code quality. I need money to pay for food,
 
 ## News
 
+### 2016-08-24
+
+* Now you can run gosense using docker-compose
+
 ### 2015-10-31
 
 * Add Cache for list and view page, now performance got better
