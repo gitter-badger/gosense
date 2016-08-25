@@ -112,47 +112,14 @@ var (
 )
 
 func main() {
-
 	Config = GetConfig()
 	DB = GetDB(Config)
 	Cache = lru.New(CacheSize)
-
 	r := gin.Default()
-	r.StaticFS("/assets", assetFS())
+	r.LoadHTMLGlob("templates/*")
+	r.Static("/assets", "./assets")
 	store := sessions.NewCookieStore([]byte("gssecret"))
 	r.Use(sessions.Sessions("mysession", store))
-	tplsname := []string{
-		"index.html",
-		"about.html",
-		"add-blog.html",
-		"admin.list.blog.html",
-		"admin-files.html",
-		"admin-login.html",
-		"edit-blog.html",
-		"message.html",
-		"search.html",
-		"view.html",
-		"donate.html",
-	}
-	var t *template.Template
-	for i := 0; i < len(tplsname); i++ {
-		tn := fmt.Sprintf("templates/%s", tplsname[i])
-		tpl, err := Asset(tn)
-		if err == nil {
-			var tmpl *template.Template
-			if t == nil {
-				t = template.New(tplsname[i])
-			}
-			if tplsname[i] == t.Name() {
-				tmpl = t
-			} else {
-				tmpl = t.New(tplsname[i])
-			}
-			_, _ = tmpl.Parse(string(tpl))
-		}
-	}
-	r.SetHTMLTemplate(template.Must(t, nil))
-
 	fc := new(FrontController)
 	r.GET("/", fc.HomeCtr)
 	r.GET("/about", fc.AboutCtr)
