@@ -6,6 +6,7 @@ services:
       - "8080:8080"
     depends_on:
       - db
+    restart: always
   db:
     build:
       context: .
@@ -14,6 +15,7 @@ services:
       - "127.0.0.1:13306:3306"
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    restart: always
 
 
 
