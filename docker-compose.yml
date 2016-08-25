@@ -7,6 +7,8 @@ services:
     depends_on:
       - db
     restart: always
+    environment:
+      GIN_MODE: "release"
   db:
     build:
       context: .
