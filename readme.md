@@ -1,5 +1,7 @@
 # GoSense
 
+[![Build Status](https://travis-ci.org/netroby/gosense.svg?branch=master)](https://travis-ci.org/netroby/gosense)
+
 Happy New Year! 2016.
 A blog web app powered by golang, see demo : https://www.netroby.com
 Using MySQL as database to storage data. Using Amazon S3 to handle file uploads.
