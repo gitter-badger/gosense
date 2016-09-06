@@ -1,14 +1,13 @@
 language: go
 
 go:
-    - 1.6
+    - 1.7
 
 install:
-    - go get github.com/jteeuwen/go-bindata/...
-    - go get github.com/elazarl/go-bindata-assetfs/...
-    - go-bindata-assetfs assets/... templates/...
+    - go get -v github.com/tools/godep
 
 script:
-    - go get -d -v ./...
-    - go build -v
+    - go get -v ./...
+    - godep restore
+    - godep go build -v
     - ls -l
