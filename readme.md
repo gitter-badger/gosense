@@ -1,5 +1,7 @@
 # GoSense
 
+[![Join the chat at https://gitter.im/netroby/gosense](https://badges.gitter.im/netroby/gosense.svg)](https://gitter.im/netroby/gosense?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://travis-ci.org/netroby/gosense.svg?branch=master)](https://travis-ci.org/netroby/gosense)
 
 Happy New Year! 2016.
